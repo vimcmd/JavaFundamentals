@@ -47,6 +47,8 @@ import java.util.LinkedList;
 public class part01_PrimitiveWrappers {
 
     public static void main(String[] args) {
+        wrappersExample();
+        parseFromStringExample();
         wrappersInGenericCollectionsExample();
     }
 
