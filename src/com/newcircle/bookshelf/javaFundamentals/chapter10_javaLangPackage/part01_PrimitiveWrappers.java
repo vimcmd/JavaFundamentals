@@ -47,9 +47,10 @@ import java.util.LinkedList;
 public class part01_PrimitiveWrappers {
 
     public static void main(String[] args) {
-        wrappersExample();
-        parseFromStringExample();
-        wrappersInGenericCollectionsExample();
+        //wrappersExample();
+        //parseFromStringExample();
+        //wrappersInGenericCollectionsExample();
+        autoboxingBadExample();
     }
 
     public static void wrappersExample() {
@@ -99,6 +100,29 @@ public class part01_PrimitiveWrappers {
         int j = intObj;
         System.out.println(i == j); // prints true
 
+    }
+
+    /**
+     * This auto-boxing feature can lead to legal but very inefficient code.
+     * For example, in the following loop, the index variable is {@code Integer} rather than a primitive
+     * type {@code int}, leading to the creation of a billion extraneous objects.
+     */
+    public static void autoboxingBadExample() {
+        long startTimeNano = System.nanoTime();
+        for(Integer i = 0; i < 100000000; i++) {
+            // This will take a very long time to execute
+        }
+        long endTimeNano = System.nanoTime();
+        long timeLeftMilli = (endTimeNano - startTimeNano) / 1_000_000;
+        System.out.println("Index as Integer: " + timeLeftMilli + "ms");
+        // ==================================
+        startTimeNano = System.nanoTime();
+        for(int i = 0; i < 100000000; i++) {
+            // This will take a very long time to execute
+        }
+        endTimeNano = System.nanoTime();
+        timeLeftMilli = (endTimeNano - startTimeNano) / 1_000_000;
+        System.out.println("Index as int: " + timeLeftMilli + "ms");
     }
 
 
