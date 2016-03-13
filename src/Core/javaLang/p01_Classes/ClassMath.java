@@ -1,6 +1,6 @@
-package com.newcircle.bookshelf.javaFundamentals.chapter10_javaLangPackage;
+package Core.javaLang.p01_Classes;
 
-public class part03_MathClass {
+public class ClassMath {
 
     public static void main(String[] args) {
         test();

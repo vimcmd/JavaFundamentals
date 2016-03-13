@@ -1,6 +1,6 @@
-package com.newcircle.bookshelf.javaFundamentals.chapter10_javaLangPackage;
+package Core.javaLang.p01_Classes;
 
-public class part02_stringAndStringBuilder {
+public class ClassString {
     private static long startTime;
     private static long endTime;
     private static int iterations = 10_000;

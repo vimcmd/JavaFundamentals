@@ -1,4 +1,4 @@
-package com.newcircle.bookshelf.javaFundamentals.chapter10_javaLangPackage;
+package Core.javaLang.p03_MiscellaneousPrograms;
 
 import java.util.List;
 import java.util.LinkedList;
@@ -44,7 +44,7 @@ import java.util.LinkedList;
  * @see Double
  * @see Void
  */
-public class part01_PrimitiveWrappers {
+public class WrapperClasses {
 
     public static void main(String[] args) {
         //wrappersExample();
