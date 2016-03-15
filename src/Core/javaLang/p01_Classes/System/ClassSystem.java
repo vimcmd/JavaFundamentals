@@ -1,4 +1,4 @@
-package Core.javaLang.p01_Classes;
+package Core.javaLang.p01_Classes.System;
 
 import java.util.Enumeration;
 import java.util.Map;
