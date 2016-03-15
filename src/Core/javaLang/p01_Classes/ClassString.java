@@ -1,5 +1,14 @@
 package Core.javaLang.p01_Classes;
 
+/**
+ * Sources:
+ * <ul>
+ * <li>
+ * https://newcircle.com/bookshelf/java_fundamentals_tutorial/java_lang#_string_and_stringbuilder
+ * <p>
+ * </li>
+ * </ul>
+ */
 public class ClassString {
     private static long startTime;
     private static long endTime;
@@ -13,11 +22,11 @@ public class ClassString {
     /**
      * {@link String}
      * <ul>
-     *     <li>Automatically created with double quotes</li>
-     *     <li>Pooled (interned) to save memory</li>
-     *     <li>Immutable - once created cannot change</li>
-     *     <li>Concatenated using the expensive {@code +} operator</li>
-     *     <li>Many methods for string manipulation/searching</li>
+     * <li>Automatically created with double quotes</li>
+     * <li>Pooled (interned) to save memory</li>
+     * <li>Immutable - once created cannot change</li>
+     * <li>Concatenated using the expensive {@code +} operator</li>
+     * <li>Many methods for string manipulation/searching</li>
      * </ul>
      */
     public static void stringExample() {
@@ -27,19 +36,19 @@ public class ClassString {
             s += ".";
         }
         endTime = System.currentTimeMillis();
-        System.out.println("String concatenation: " + (endTime - startTime) + " ms");
+        System.out.println("String concatenation: " + ( endTime - startTime ) + " ms");
     }
 
     /**
      * {@link StringBuilder}, {@link StringBuffer}
      * <ul>
-     *     <li>Mutable - can quickly grow and shrink as needed</li>
-     *     <li>Few methods modifying buffer: {@code append(), insert(), delete(), replace()}</li>
-     *     <li>Use {@code toString()} if you needed to get a String representation of object content</li>
-     *     <li>StringBuffer is synchronized for thread-safe access in multithreaded applications</li>
-     *     <li>Use {@code StringBuilder} for better performance unless you plan to access the object from multiple threads</li>
-     *     <li>In single-threaded context {@code StringBuilder} is faster than {@code StringBuffer}. But both are
-     *     1000+ times faster than repeated {@code String} concatenation</li>
+     * <li>Mutable - can quickly grow and shrink as needed</li>
+     * <li>Few methods modifying buffer: {@code append(), insert(), delete(), replace()}</li>
+     * <li>Use {@code toString()} if you needed to get a String representation of object content</li>
+     * <li>StringBuffer is synchronized for thread-safe access in multithreaded applications</li>
+     * <li>Use {@code StringBuilder} for better performance unless you plan to access the object from multiple threads</li>
+     * <li>In single-threaded context {@code StringBuilder} is faster than {@code StringBuffer}. But both are
+     * 1000+ times faster than repeated {@code String} concatenation</li>
      * </ul>
      */
     public static void stringBuilderAndBufferExample() {
@@ -50,7 +59,7 @@ public class ClassString {
         }
         sb.trimToSize();
         endTime = System.currentTimeMillis();
-        System.out.println("StringBuilder appending: " + (endTime - startTime) + " ms");
+        System.out.println("StringBuilder appending: " + ( endTime - startTime ) + " ms");
     }
 
 }

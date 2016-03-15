@@ -5,40 +5,48 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * The {@link java.lang.System} class comes with many static methods and mainly intended to
- * communicate with the underlying systems. Using these methods, it is possible to take keyboard
- * input (using {@code System.in}), knowing system time (using {@code currentTimeMillis()}),
- * copying an array elements into another (using {@code arrayCopy()}, method illustrated in
- * {@code arrays} topic), to advise to go for garbage collection (using {@code gc()}) and finally
- * to know the system properties etc.
- * <p>
- * <p>
- * Following is the class signature:
- * </p>
- * <p><b>public final class System extends Object</b></p>
- * <p>
- * The {@code System} class is declared as <b>final</b> and thereby no class is allowed to inherit. The class
- * contains three static final instance variables.
- * </p>
+ * Sources:
  * <ul>
- * <li><p><b>public final InputStream in</b></p></li>
- * <li><p><b>public final InputStream out</b></p></li>
- * <li><p><b>public final PrintStream err</b></p></li>
+ * <li>
+ * http://way2java.com/java-lang/java-class-system/
+ * </li>
  * </ul>
- * <p>
- * The <b>in</b> variable represents an object of {@link java.io.InputStream} and <b>out</b> and
- * <b>err</b> variables represent and object of {@link java.io.PrintStream} and their usage is discussed
- * more in I/O streams.
- * </p>
- * <p>
- * Following program illustrates the usage of {@code currentTimeMills()} and {@code getProperties()}
- * methods.
- * </p>
  */
 public class ClassSystem {
 
     final static String SEPARATOR = "===============================================";
 
+    /**
+     * The {@link java.lang.System} class comes with many static methods and mainly intended to
+     * communicate with the underlying systems. Using these methods, it is possible to take keyboard
+     * input (using {@code System.in}), knowing system time (using {@code currentTimeMillis()}),
+     * copying an array elements into another (using {@code arrayCopy()}, method illustrated in
+     * {@code arrays} topic), to advise to go for garbage collection (using {@code gc()}) and finally
+     * to know the system properties etc.
+     * <p>
+     * <p>
+     * Following is the class signature:
+     * </p>
+     * <p><b>public final class System extends Object</b></p>
+     * <p>
+     * The {@code System} class is declared as <b>final</b> and thereby no class is allowed to inherit. The class
+     * contains three static final instance variables.
+     * </p>
+     * <ul>
+     * <li><p><b>public final InputStream in</b></p></li>
+     * <li><p><b>public final InputStream out</b></p></li>
+     * <li><p><b>public final PrintStream err</b></p></li>
+     * </ul>
+     * <p>
+     * The <b>in</b> variable represents an object of {@link java.io.InputStream} and <b>out</b> and
+     * <b>err</b> variables represent and object of {@link java.io.PrintStream} and their usage is discussed
+     * more in I/O streams.
+     * </p>
+     * <p>
+     * Following program illustrates the usage of {@code currentTimeMills()} and {@code getProperties()}
+     * methods.
+     * </p>
+     */
     public static void main(String[] args) {
         timeExecutingWhileLoop();
         System.out.println(SEPARATOR);

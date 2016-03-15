@@ -1,5 +1,14 @@
 package Core.javaLang.p01_Classes;
 
+/**
+ * Sources:
+ * <ul>
+ * <li>
+ * <p>
+ * http://way2java.com/java-lang/class-math/
+ * </li>
+ * </ul>
+ */
 public class ClassMath {
 
     public static void main(String[] args) {
