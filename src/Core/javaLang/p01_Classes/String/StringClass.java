@@ -9,7 +9,7 @@ package Core.javaLang.p01_Classes.String;
  * </li>
  * </ul>
  */
-public class ClassString {
+public class StringClass {
     private static long startTime;
     private static long endTime;
     private static int iterations = 10_000;

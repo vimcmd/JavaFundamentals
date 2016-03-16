@@ -9,7 +9,7 @@ package Core.javaLang.p01_Classes.Math;
  * </li>
  * </ul>
  */
-public class ClassMath {
+public class MathClass {
 
     public static void main(String[] args) {
         test();

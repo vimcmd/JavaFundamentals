@@ -12,7 +12,7 @@ import java.util.Properties;
  * </li>
  * </ul>
  */
-public class ClassSystem {
+public class SystemClass {
 
     final static String SEPARATOR = "===============================================";
 
