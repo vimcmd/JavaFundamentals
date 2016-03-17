@@ -1,5 +1,8 @@
 package Core.javaLang.p01_Classes.String;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Sources:
  * <ul>
@@ -28,9 +31,8 @@ public class StringTasks {
 
     public static void main(String[] args) {
         StringTasks stringTask = new StringTasks();
+        stringTask.sortWordsInString();
         System.out.println(stringTask);
-        System.out.println(lineSeparator);
-        System.out.println(stringTask.stringReverse());
     }
 
     public String getInitialString() {
@@ -45,11 +47,69 @@ public class StringTasks {
     public String toString() {
         return "Initial string: " + this.getInitialString() +
                 lineSeparator +
-                "Result string:  " + this.getResultString();
+                "Result string : " + this.getResultString();
     }
 
-    public String stringReverse() {
-        return new StringBuilder(this.getInitialString()).reverse()
-                                                         .toString();
+    public void stringReverse() {
+        this.resultString = new StringBuilder(this.getInitialString()).reverse()
+                                                                      .toString();
+    }
+
+    /**
+     * Sort words in string using loop
+     * @param splitSeparator the delimiting String
+     */
+    public void sortWordsInString(String splitSeparator) {
+        String initialString = this.initialString.trim();
+        String a[] = initialString.split(splitSeparator);
+
+        // sorting
+        for(int i = 0; i < a.length - 1; i++) {
+            for(int j = i + 1; j < a.length; j++) {
+                if (a[i].compareToIgnoreCase(a[j]) > 0) {
+                    String temp = a[j];
+                    a[j] = a[i];
+                    a[i] = temp;
+                }
+            }
+        }
+        // appending to result
+        StringBuilder result = new StringBuilder();
+        for(String elem : a) {
+            if (!elem.isEmpty()) {
+                result.append(elem)
+                      .append(splitSeparator);
+            }
+        }
+
+        this.resultString = result.toString()
+                                  .trim();
+
+    }
+
+    /**
+     * equivalent to {@link #sortWordsInString(String)}, using space as delimiter
+     */
+    public void sortWordsInString() {
+        sortWordsInString(" ");
+    }
+
+    /**
+     * Sort words in string using JavaSE classes
+     * @param splitSeparator the delimiting String
+     */
+    public void sortWordsInStringDefault(String splitSeparator) {
+        List<String> arr;
+        arr = Arrays.asList(this.initialString.trim()
+                                              .split(splitSeparator));
+        arr.sort(String::compareToIgnoreCase);
+        StringBuilder result = new StringBuilder();
+        for(String elem : arr) {
+            result.append(elem)
+                  .append(splitSeparator);
+        }
+
+        this.resultString = result.toString()
+                                  .trim();
     }
 }

@@ -16,6 +16,7 @@ public class StringTasksTest {
         String reversedString = ".3@dCbA";
 
         StringTasks stringExample = new StringTasks(initialString);
-        assertEquals("Reversed string wrong", reversedString, stringExample.stringReverse());
+        stringExample.stringReverse();
+        assertEquals("Reversed string wrong", reversedString, stringExample.getResultString());
     }
 }
