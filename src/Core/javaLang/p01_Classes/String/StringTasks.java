@@ -2,6 +2,7 @@ package Core.javaLang.p01_Classes.String;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Sources:
@@ -13,9 +14,10 @@ import java.util.List;
  */
 public class StringTasks {
 
+    public static final String lineSeparator = System.lineSeparator();
+    private static final String splitSeparator = " ";
     private String initialString;
     private String resultString;
-    public static final String lineSeparator = System.lineSeparator();
 
     public StringTasks(String initialString) {
         this.initialString = initialString;
@@ -31,7 +33,7 @@ public class StringTasks {
 
     public static void main(String[] args) {
         StringTasks stringTask = new StringTasks();
-        stringTask.sortWordsInString();
+        stringTask.sortWordsInStringStreamDefault(splitSeparator);
         System.out.println(stringTask);
     }
 
@@ -57,6 +59,7 @@ public class StringTasks {
 
     /**
      * Sort words in string using loop
+     *
      * @param splitSeparator the delimiting String
      */
     public void sortWordsInString(String splitSeparator) {
@@ -91,25 +94,51 @@ public class StringTasks {
      * equivalent to {@link #sortWordsInString(String)}, using space as delimiter
      */
     public void sortWordsInString() {
-        sortWordsInString(" ");
+        sortWordsInString(splitSeparator);
     }
 
     /**
      * Sort words in string using JavaSE classes
+     *
      * @param splitSeparator the delimiting String
+     * @since 1.8
      */
     public void sortWordsInStringDefault(String splitSeparator) {
         List<String> arr;
         arr = Arrays.asList(this.initialString.trim()
                                               .split(splitSeparator));
         arr.sort(String::compareToIgnoreCase);
+        // or, here can be used this method:
+        // Collections.sort(arr, String::compareToIgnoreCase);
         StringBuilder result = new StringBuilder();
         for(String elem : arr) {
             result.append(elem)
                   .append(splitSeparator);
         }
-
         this.resultString = result.toString()
                                   .trim();
     }
+
+    /**
+     *
+     * @param splitSeparator the word delimiting String
+     * @since 1.8
+     */
+    public void sortWordsInStringStreamDefault(String splitSeparator) {
+        List<String> list = Arrays.asList(this.initialString.trim()
+                                                            .split(splitSeparator));
+        list = list.stream()
+                   .sorted()
+                   .collect(Collectors.toList());
+
+        StringBuilder result = new StringBuilder();
+        for ( String elem : list )
+        {
+            result.append(elem)
+                  .append(splitSeparator);
+        }
+        this.resultString = result.toString()
+                                  .trim();
+    }
+
 }
