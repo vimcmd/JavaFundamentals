@@ -33,7 +33,7 @@ public class StringTasks {
 
     public static void main(String[] args) {
         StringTasks stringTask = new StringTasks();
-        stringTask.sortWordsInStringStreamDefault(splitSeparator);
+        stringTask.replaceCharInEachWord(3, 'X');
         System.out.println(stringTask);
     }
 
@@ -62,7 +62,7 @@ public class StringTasks {
      *
      * @param splitSeparator the delimiting String
      */
-    public void sortWordsInString(String splitSeparator) {
+    public void sortWordsInStringIgnoreCase(String splitSeparator) {
         String initialString = this.initialString.trim();
         String a[] = initialString.split(splitSeparator);
 
@@ -91,19 +91,19 @@ public class StringTasks {
     }
 
     /**
-     * equivalent to {@link #sortWordsInString(String)}, using space as delimiter
+     * equivalent to {@link #sortWordsInStringIgnoreCase(String)}, using space as delimiter
      */
-    public void sortWordsInString() {
-        sortWordsInString(splitSeparator);
+    public void sortWordsInStringIgnoreCase() {
+        sortWordsInStringIgnoreCase(splitSeparator);
     }
 
     /**
-     * Sort words in string using JavaSE classes
+     * Sort words in string using JavaSE API
      *
      * @param splitSeparator the delimiting String
      * @since 1.8
      */
-    public void sortWordsInStringDefault(String splitSeparator) {
+    public void sortWordsInStringIgnoreCaseUsingArrays(String splitSeparator) {
         List<String> arr;
         arr = Arrays.asList(this.initialString.trim()
                                               .split(splitSeparator));
@@ -119,21 +119,23 @@ public class StringTasks {
                                   .trim();
     }
 
+    public void sortWordsInStringIgnoreCaseUsingArrays() {
+        sortWordsInStringIgnoreCaseUsingArrays(splitSeparator);
+    }
+
     /**
-     *
      * @param splitSeparator the word delimiting String
      * @since 1.8
      */
-    public void sortWordsInStringStreamDefault(String splitSeparator) {
+    public void sortWordsInStringIgnoreCaseUsingStream(String splitSeparator) {
         List<String> list = Arrays.asList(this.initialString.trim()
                                                             .split(splitSeparator));
         list = list.stream()
-                   .sorted()
+                   .sorted(String::compareToIgnoreCase)
                    .collect(Collectors.toList());
 
         StringBuilder result = new StringBuilder();
-        for ( String elem : list )
-        {
+        for(String elem : list) {
             result.append(elem)
                   .append(splitSeparator);
         }
@@ -141,4 +143,57 @@ public class StringTasks {
                                   .trim();
     }
 
+    public void sortWordsInStringIgnoreCaseUsingStream() {
+        sortWordsInStringIgnoreCaseUsingStream(splitSeparator);
+    }
+
+    /**
+     * Replaces character at {@code charToReplaceIndex} position in each word in initial string.
+     *
+     * @param charToReplaceIndex index of character in word to be replaced (starts from 0)
+     * @param replacingChar      character, which should be replaced
+     */
+    public void replaceCharInEachWord(int charToReplaceIndex, char replacingChar) {
+        StringBuilder result = new StringBuilder(initialString);
+
+        //prevent OutOfBoundException
+        if (charToReplaceIndex > 1) {
+            for(int i = 0; i < result.length() - charToReplaceIndex; i++) {
+                if (Character.isWhitespace(result.charAt(i))) {
+                    //skip leading whitespaces
+                    continue;
+                } else {
+                    //find char to replace
+                    int index = 0;
+                    while (index < charToReplaceIndex) {
+                        // check to occasionally not jump to other word
+                        if (Character.isWhitespace(result.charAt(i))) {
+                            break;
+                        }
+                        i++;
+                        index++;
+                    }
+                }
+
+                //replace character
+                if (!Character.isWhitespace(result.charAt(i))) {
+                    result.setCharAt(i, replacingChar);
+                }
+
+                //skip following characters in word till next whitespace
+                while (( Character.isAlphabetic(result.charAt(i)) ) && ( i <= result.length() - charToReplaceIndex )) {
+                    i++;
+                }
+            }
+        } else {
+            // otherwise replace all characters in string
+            for(int i = 0; i < result.length(); i++) {
+                if (!Character.isWhitespace(result.charAt(i))) {
+                    result.setCharAt(i, replacingChar);
+                }
+            }
+        }
+
+        this.resultString = result.toString();
+    }
 }
