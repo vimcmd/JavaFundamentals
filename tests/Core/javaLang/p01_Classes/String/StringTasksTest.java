@@ -59,10 +59,19 @@ public class StringTasksTest {
     @Test
     public void testReplaceEachCharInEachWord() throws Exception {
         final String initialString = "abc DECVFCNF 1234 ad   vr";
-        final String expectedString = "XXX XXXXXXXX XXXX XX   XX";
+        final String expectedString = "aXc DXCVFCNF 1X34 aX   vX";
         StringTasks string = new StringTasks(initialString);
         final char replacingChar = 'X';
         string.replaceCharInEachWord(1, replacingChar);
         assertEquals(expectedString, string.getResultString());
+    }
+
+    @Test
+    public void testReplaceCharIndexLargerThanWordLength() throws Exception {
+        final String initialString = "ab cde fge  cn ghtr ";
+        StringTasks string = new StringTasks(initialString);
+        final char replacingChar = 'X';
+        string.replaceCharInEachWord(4, replacingChar);
+        assertEquals(initialString, string.getResultString());
     }
 }

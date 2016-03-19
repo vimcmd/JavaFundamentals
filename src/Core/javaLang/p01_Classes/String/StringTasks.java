@@ -46,10 +46,10 @@ public class StringTasks {
     public String toString() {
         long nanoTimeTaken = System.nanoTime() - this.nanoTimeStart;
         return "Initial string : " + this.getInitialString() +
-               lineSeparator +
-               "Result string  : " + this.getResultString() +
-               lineSeparator +
-               "Time taken (ms): " + (nanoTimeTaken / 1_000_000D);
+                lineSeparator +
+                "Result string  : " + this.getResultString() +
+                lineSeparator +
+                "Time taken (ms): " + ( nanoTimeTaken / 1_000_000D );
     }
 
     public void stringReverse() {
@@ -76,16 +76,8 @@ public class StringTasks {
                 }
             }
         }
-        // appending to result
-        StringBuilder result = new StringBuilder();
-        for(String elem : a) {
-            if (!elem.isEmpty()) {
-                result.append(elem)
-                      .append(splitSeparator);
-            }
-        }
 
-        this.resultString = result.toString()
+        this.resultString = String.join(" ", a)
                                   .trim();
 
     }
@@ -110,12 +102,7 @@ public class StringTasks {
         arr.sort(String::compareToIgnoreCase);
         // or, here can be used this method:
         // Collections.sort(arr, String::compareToIgnoreCase);
-        StringBuilder result = new StringBuilder();
-        for(String elem : arr) {
-            result.append(elem)
-                  .append(splitSeparator);
-        }
-        this.resultString = result.toString()
+        this.resultString = String.join(" ", arr)
                                   .trim();
     }
 
@@ -134,12 +121,7 @@ public class StringTasks {
                    .sorted(String::compareToIgnoreCase)
                    .collect(Collectors.toList());
 
-        StringBuilder result = new StringBuilder();
-        for(String elem : list) {
-            result.append(elem)
-                  .append(splitSeparator);
-        }
-        this.resultString = result.toString()
+        this.resultString = String.join(" ", list)
                                   .trim();
     }
 
@@ -148,7 +130,8 @@ public class StringTasks {
     }
 
     /**
-     * Replaces character at {@code charToReplaceIndex} position in each word in initial string.
+     * Replaces character at {@code charToReplaceIndex} position in each word in initial string. If specified index
+     * larger than word length, replacing not performed.
      *
      * @param charToReplaceIndex index of character in word to be replaced (starts from 0)
      * @param replacingChar      character, which should be replaced
@@ -157,7 +140,7 @@ public class StringTasks {
         StringBuilder result = new StringBuilder(initialString);
 
         //prevent OutOfBoundException
-        if (charToReplaceIndex > 1) {
+        if (charToReplaceIndex > 0) {
             for(int i = 0; i < result.length() - charToReplaceIndex; i++) {
                 if (Character.isWhitespace(result.charAt(i))) {
                     //skip leading whitespaces
@@ -181,7 +164,7 @@ public class StringTasks {
                 }
 
                 //skip following characters in word till next whitespace
-                while (( Character.isAlphabetic(result.charAt(i)) ) && ( i <= result.length() - charToReplaceIndex )) {
+                while (( Character.isAlphabetic(result.charAt(i)) ) && ( i <= result.length() - charToReplaceIndex - 1 )) {
                     i++;
                 }
             }
