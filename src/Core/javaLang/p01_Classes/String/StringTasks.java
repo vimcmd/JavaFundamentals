@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
  */
 public class StringTasks {
 
-    public static final String lineSeparator = System.lineSeparator();
+    private static final String lineSeparator = System.lineSeparator();
     private static final String splitSeparator = " ";
+    private final long nanoTimeStart = System.nanoTime();
     private String initialString;
     private String resultString;
 
@@ -24,16 +25,12 @@ public class StringTasks {
     }
 
     public StringTasks() {
-        this("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et " +
-                     "dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " +
-                     "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse " +
-                     "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in " +
-                     "culpa qui officia deserunt mollit anim id est laborum.");
+        this("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
     }
 
     public static void main(String[] args) {
         StringTasks stringTask = new StringTasks();
-        stringTask.replaceCharInEachWord(3, 'X');
+        stringTask.replaceCharInEachWord(1, 'X');
         System.out.println(stringTask);
     }
 
@@ -47,9 +44,12 @@ public class StringTasks {
 
     @Override
     public String toString() {
-        return "Initial string: " + this.getInitialString() +
-                lineSeparator +
-                "Result string : " + this.getResultString();
+        long nanoTimeTaken = System.nanoTime() - this.nanoTimeStart;
+        return "Initial string : " + this.getInitialString() +
+               lineSeparator +
+               "Result string  : " + this.getResultString() +
+               lineSeparator +
+               "Time taken (ms): " + (nanoTimeTaken / 1_000_000D);
     }
 
     public void stringReverse() {
