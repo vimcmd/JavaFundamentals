@@ -1,4 +1,4 @@
-package Core.javaLang.p01_Classes.String;
+package p02_classesAndLibrariesUsing.ch07_strings.sub08_chapterTasks;
 
 import org.junit.Test;
 
