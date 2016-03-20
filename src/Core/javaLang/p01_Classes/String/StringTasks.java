@@ -16,7 +16,7 @@ public class StringTasks {
 
     private static final String lineSeparator = System.lineSeparator();
     private static final String splitSeparator = " ";
-    private final long nanoTimeStart = System.nanoTime();
+    private long nanoTimeStart = System.nanoTime();
     private String initialString;
     private String resultString;
 
@@ -32,6 +32,10 @@ public class StringTasks {
         StringTasks stringTask = new StringTasks();
         stringTask.replaceCharInEachWord(0, 'X');
         System.out.println(stringTask);
+    }
+
+    private void setNanoTimeStart() {
+        this.nanoTimeStart = System.nanoTime();
     }
 
     public String getInitialString() {
@@ -57,6 +61,7 @@ public class StringTasks {
     }
 
     public void stringReverse() {
+        setNanoTimeStart();
         setResultString(new StringBuilder(this.getInitialString()).reverse()
                                                                   .toString());
     }
@@ -67,6 +72,7 @@ public class StringTasks {
      * @param splitSeparator the delimiting String
      */
     public void sortWordsInStringIgnoreCase(String splitSeparator) {
+        setNanoTimeStart();
         String initialString = this.initialString.trim();
         String a[] = initialString.split(splitSeparator);
 
@@ -100,6 +106,7 @@ public class StringTasks {
      * @since 1.8
      */
     public void sortWordsInStringIgnoreCaseUsingArrays(String splitSeparator) {
+        setNanoTimeStart();
         List<String> arr;
         arr = Arrays.asList(this.initialString.trim()
                                               .split(splitSeparator));
@@ -119,6 +126,7 @@ public class StringTasks {
      * @since 1.8
      */
     public void sortWordsInStringIgnoreCaseUsingStream(String splitSeparator) {
+        setNanoTimeStart();
         List<String> list = Arrays.asList(this.initialString.trim()
                                                             .split(splitSeparator));
         list = list.stream()
@@ -142,6 +150,7 @@ public class StringTasks {
      * @param replacingChar      character, which should be replaced
      */
     public void replaceCharInEachWord(int charToReplaceIndex, char replacingChar) {
+        setNanoTimeStart();
         StringBuilder result = new StringBuilder(initialString);
 
         if (charToReplaceIndex >= 0) {
