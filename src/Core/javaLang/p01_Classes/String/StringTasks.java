@@ -30,7 +30,7 @@ public class StringTasks {
 
     public static void main(String[] args) {
         StringTasks stringTask = new StringTasks();
-        stringTask.replaceCharInEachWord(1, 'X');
+        stringTask.replaceCharInEachWord(0, 'X');
         System.out.println(stringTask);
     }
 
@@ -40,6 +40,10 @@ public class StringTasks {
 
     public String getResultString() {
         return resultString;
+    }
+
+    private void setResultString(String resultString) {
+        this.resultString = resultString;
     }
 
     @Override
@@ -53,8 +57,8 @@ public class StringTasks {
     }
 
     public void stringReverse() {
-        this.resultString = new StringBuilder(this.getInitialString()).reverse()
-                                                                      .toString();
+        setResultString(new StringBuilder(this.getInitialString()).reverse()
+                                                                  .toString());
     }
 
     /**
@@ -77,8 +81,8 @@ public class StringTasks {
             }
         }
 
-        this.resultString = String.join(" ", a)
-                                  .trim();
+        setResultString(String.join(" ", a)
+                              .trim());
 
     }
 
@@ -102,8 +106,8 @@ public class StringTasks {
         arr.sort(String::compareToIgnoreCase);
         // or, here can be used this method:
         // Collections.sort(arr, String::compareToIgnoreCase);
-        this.resultString = String.join(" ", arr)
-                                  .trim();
+        setResultString(String.join(" ", arr)
+                              .trim());
     }
 
     public void sortWordsInStringIgnoreCaseUsingArrays() {
@@ -121,8 +125,8 @@ public class StringTasks {
                    .sorted(String::compareToIgnoreCase)
                    .collect(Collectors.toList());
 
-        this.resultString = String.join(" ", list)
-                                  .trim();
+        setResultString(String.join(" ", list)
+                              .trim());
     }
 
     public void sortWordsInStringIgnoreCaseUsingStream() {
@@ -133,15 +137,15 @@ public class StringTasks {
      * Replaces character at {@code charToReplaceIndex} position in each word in initial string. If specified index
      * larger than word length, replacing not performed.
      *
-     * @param charToReplaceIndex index of character in word to be replaced (starts from 0)
+     * @param charToReplaceIndex index of character in word to be replaced (starts from 0). If any negative value passed,
+     *                           replaces all non-space characters.
      * @param replacingChar      character, which should be replaced
      */
     public void replaceCharInEachWord(int charToReplaceIndex, char replacingChar) {
         StringBuilder result = new StringBuilder(initialString);
 
-        //prevent OutOfBoundException
-        if (charToReplaceIndex > 0) {
-            for(int i = 0; i < result.length() - charToReplaceIndex; i++) {
+        if (charToReplaceIndex >= 0) {
+            for(int i = 0; i < result.length() - charToReplaceIndex - 1; i++) {
                 if (Character.isWhitespace(result.charAt(i))) {
                     //skip leading whitespaces
                     continue;
@@ -177,6 +181,6 @@ public class StringTasks {
             }
         }
 
-        this.resultString = result.toString();
+        setResultString(result.toString());
     }
 }
