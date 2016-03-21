@@ -74,4 +74,40 @@ public class StringTasksTest {
         string.replaceCharInEachWord(4, replacingChar);
         assertEquals(initialString, string.getResultString());
     }
+
+    @Test
+    public void testReplaceCharUsingRegex() throws Exception {
+        final String initialString = "abcde efgra adgdf";
+        final String resultString  = "abXde efXra adXdf";
+        StringTasks string = new StringTasks(initialString);
+        string.replaceCharInEachWordUsingRegex(2, 'X');
+        assertEquals(resultString, string.getResultString());
+    }
+
+    @Test
+    public void testReplaceCharUsingRegex_NoCharsReplaced() throws Exception {
+        final String initialString = "abc ef ad qse";
+        final String resultString  = "abc ef ad qse";
+        StringTasks string = new StringTasks(initialString);
+        string.replaceCharInEachWordUsingRegex(5, 'X');
+        assertEquals(resultString, string.getResultString());
+    }
+
+    @Test
+    public void testReplaceCharUsingRegex_NoCharsReplacedInPunctuationSymbols() throws Exception {
+        final String initialString = "#^%# %$@%%^% %$#@#&";
+        final String resultString  = "#^%# %$@%%^% %$#@#&";
+        StringTasks string = new StringTasks(initialString);
+        string.replaceCharInEachWordUsingRegex(2, 'X');
+        assertEquals(resultString, string.getResultString());
+    }
+
+    @Test
+    public void testReplaceCharUsingRegex_ExtraSpaces() throws Exception {
+        final String initialString = "abc   cfv  cfrt    gtdr   c   ";
+        final String resultString  = "abc   cfv  cfrX    gtdX   c   ";
+        StringTasks string = new StringTasks(initialString);
+        string.replaceCharInEachWordUsingRegex(3, 'X');
+        assertEquals(resultString, string.getResultString());
+    }
 }

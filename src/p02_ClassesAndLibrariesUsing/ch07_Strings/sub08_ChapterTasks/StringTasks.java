@@ -2,6 +2,8 @@ package p02_classesAndLibrariesUsing.ch07_strings.sub08_chapterTasks;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -16,8 +18,8 @@ public class StringTasks {
 
     private static final String lineSeparator = System.lineSeparator();
     private static final String splitSeparator = " ";
+    private final String initialString;
     private long nanoTimeStart = System.nanoTime();
-    private String initialString;
     private String resultString;
 
     public StringTasks(String initialString) {
@@ -186,6 +188,32 @@ public class StringTasks {
             for(int i = 0; i < result.length(); i++) {
                 if (!Character.isWhitespace(result.charAt(i))) {
                     result.setCharAt(i, replacingChar);
+                }
+            }
+        }
+
+        setResultString(result.toString());
+    }
+
+    /**
+     * Replaces character at {@code charToReplaceIndex} position in each word in initial string, excluding punctuation
+     * symbols.
+     *
+     * @param charToReplaceIndex index of character in word to be replaced (starts from 0). If specified index larger
+     *                           than word length, replacing not performed.
+     * @param replacingChar      character, which should be replaced
+     */
+    public void replaceCharInEachWordUsingRegex(int charToReplaceIndex, char replacingChar) {
+        Pattern pattern = Pattern.compile("\\w+\\s*");
+        Matcher matcher = pattern.matcher(getInitialString());
+        StringBuilder result = new StringBuilder(getInitialString());
+
+        while (matcher.find()) {
+            // check bounds
+            if (( matcher.group().length() > charToReplaceIndex ) && ( matcher.end() >= ( matcher.start() + charToReplaceIndex ) )) {
+                int charIndexInResult = matcher.start() + charToReplaceIndex;
+                if (!Character.isWhitespace(result.charAt(charIndexInResult))) {
+                    result.setCharAt(charIndexInResult, replacingChar);
                 }
             }
         }
