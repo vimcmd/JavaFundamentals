@@ -1,8 +1,7 @@
 package p02_classesAndLibrariesUsing.ch07_strings.sub01_stringClass;
 
-/**
- * Compare references and objects.
- */
+/* # 3 # Compare references and objects */
+
 public class StringEquality {
     public static void main(String[] args) {
         String s1 = "Java";

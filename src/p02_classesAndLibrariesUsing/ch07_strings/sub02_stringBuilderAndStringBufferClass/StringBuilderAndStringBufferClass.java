@@ -1,5 +1,7 @@
 package p02_classesAndLibrariesUsing.ch07_strings.sub02_stringBuilderAndStringBufferClass;
 
+/* # 5 # StringBuffer object properties */
+
 /**
  * <p>
  * {@link StringBuilder} and {@link StringBuffer} are mostly equal and very close to {@link String} class, but main

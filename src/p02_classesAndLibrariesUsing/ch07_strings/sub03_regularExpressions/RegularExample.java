@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/* # 8 # Strings processing using regular expressions */
+
 /**
  * <p>Processing string using patterns</p>
  * <p>{@link Pattern} class used for defining regular expressions (patterns), which is searched in string, file

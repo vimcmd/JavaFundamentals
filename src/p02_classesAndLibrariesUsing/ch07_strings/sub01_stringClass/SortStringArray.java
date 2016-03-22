@@ -1,5 +1,6 @@
 package p02_classesAndLibrariesUsing.ch07_strings.sub01_stringClass;
 
+/* # 1 # Sorting */
 
 public class SortStringArray {
     private final String initialString;

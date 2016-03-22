@@ -2,6 +2,8 @@ package p02_classesAndLibrariesUsing.ch07_strings.sub04_applicationI18n;
 
 import java.util.Locale;
 
+/* # 12 # Extract information from data source and change locale */
+
 /**
  * Class instance may be created only once, and whole application can use its features
  */

@@ -1,8 +1,7 @@
 package p02_classesAndLibrariesUsing.ch07_strings.sub01_stringClass;
 
-/**
- * Inclusion in literal pool.
- */
+/* # 4 # Inclusion in literal pool */
+
 public class StringIntern {
     public static void main(String[] args) {
 

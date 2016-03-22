@@ -3,6 +3,8 @@ package p02_classesAndLibrariesUsing.ch07_strings.sub04_applicationI18n;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/* # 10 # Different language support */
+
 public class HamletI18n {
     public static void main(String[] args) {
         for(int i = 3; i > 0; i--) {

@@ -1,5 +1,7 @@
 package p02_classesAndLibrariesUsing.ch07_strings.sub02_stringBuilderAndStringBufferClass;
 
+/* # 7 # Comparing StringBuffer objects and their hash-codes */
+
 /**
  * <p>
  * For classes {@link StringBuffer} and {@link StringBuilder} are not overrided methods {@code equals(), hasCode()} of
@@ -20,7 +22,6 @@ public class StringBufferEquality {
 
         System.out.println(sb1.equals(sb2)); //false
         System.out.println(sb1.hashCode() == sb2.hashCode()); //false
-        System.out.println(sb1.toString()
-                              .contentEquals(sb2)); //true
+        System.out.println(sb1.toString().contentEquals(sb2)); //true
     }
 }
