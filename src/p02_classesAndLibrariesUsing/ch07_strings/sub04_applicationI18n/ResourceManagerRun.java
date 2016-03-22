@@ -3,7 +3,7 @@ package p02_classesAndLibrariesUsing.ch07_strings.sub04_applicationI18n;
 import java.util.Locale;
 
 /**
- * TODO: add description
+ * Class instance may be created only once, and whole application can use its features
  */
 public class ResourceManagerRun {
     public static void main(String[] args) {

@@ -4,7 +4,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * TODO: add description
+ * To interact with properties files it is a good idea to create special class, which instance allow to extract
+ * data based on key, change locale value, which makes it easy to use on application internationalization
  */
 public enum ResourceManager {
     INSTANCE;
