@@ -32,7 +32,7 @@ public class StringTasks {
 
     public static void main(String[] args) {
         StringTasks stringTask = new StringTasks();
-        stringTask.replaceCharInEachWord(0, 'X');
+        stringTask.appendWordIfEndsWithSubstring("t", "WOW");
         System.out.println(stringTask);
     }
 
@@ -216,6 +216,23 @@ public class StringTasks {
                     result.setCharAt(charIndexInResult, replacingChar);
                 }
             }
+        }
+
+        setResultString(result.toString());
+    }
+
+    /**
+     * After <b>each</b> word in text if it ends with given substring, appends given word.
+     * @param wordEnding substring which words must end with
+     * @param appendedWord word to append after matching word
+     */
+    public void appendWordIfEndsWithSubstring(String wordEnding, String appendedWord) {
+        Pattern pattern = Pattern.compile("\\w+" + wordEnding + "\\b");
+        Matcher matcher = pattern.matcher(getInitialString());
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            matcher.appendReplacement(result, matcher.group() + " " + appendedWord);
         }
 
         setResultString(result.toString());

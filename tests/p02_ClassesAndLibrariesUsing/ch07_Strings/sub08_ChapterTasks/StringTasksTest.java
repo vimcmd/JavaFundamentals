@@ -110,4 +110,13 @@ public class StringTasksTest {
         string.replaceCharInEachWordUsingRegex(3, 'X');
         assertEquals(resultString, string.getResultString());
     }
+
+    @Test
+    public void testAppendWordIfEndsWithSubstring() throws Exception {
+        final String initialString = "lorem temet ememo somnem, indeo alem";
+        final String resultString = "lorem WOW temet ememo somnem WOW, indeo alem WOW";
+        StringTasks string = new StringTasks(initialString);
+        string.appendWordIfEndsWithSubstring("em", "WOW");
+        assertEquals(resultString, string.getResultString());
+    }
 }
