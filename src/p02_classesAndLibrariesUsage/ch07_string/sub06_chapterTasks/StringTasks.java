@@ -1,4 +1,4 @@
-package p02_classesAndLibrariesUsage.ch07_string.sub08_chapterTasks;
+package p02_classesAndLibrariesUsage.ch07_string.sub06_chapterTasks;
 
 import java.util.Arrays;
 import java.util.List;
