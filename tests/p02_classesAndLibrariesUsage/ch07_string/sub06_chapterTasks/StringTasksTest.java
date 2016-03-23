@@ -128,4 +128,23 @@ public class StringTasksTest {
         string.appendWordIfEndsWithSubstring("orem", "WOW");
         assertEquals(resultString, string.getResultString());
     }
+
+    @Test
+    public void testRemoveSubstringBetweenGivenSymbols() throws Exception {
+        final String initialString = "lorem (temet ememo somnem, indeo) alem";
+        final String resultString = "lorem  alem";
+        StringTasks string = new StringTasks(initialString);
+        string.removeSubstringBetweenGivenSymbols('(', ')');
+        assertEquals(resultString, string.getResultString());
+    }
+
+
+    @Test
+    public void testRemoveSubstringBetweenSymbol() throws Exception {
+        final String initialString = "lorem *temet ememo somnem*, indeo *alem";
+        final String resultString = "lorem alem";
+        StringTasks string = new StringTasks(initialString);
+        string.removeSubstringBetweenGivenSymbols('*');
+        assertEquals(resultString, string.getResultString());
+    }
 }

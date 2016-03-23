@@ -31,8 +31,8 @@ public class StringTasks {
     }
 
     public static void main(String[] args) {
-        StringTasks stringTask = new StringTasks();
-        stringTask.appendWordIfEndsWithSubstring("t", "WOW");
+        StringTasks stringTask = new StringTasks("lorem *temet ememo somnem, indeo *alem");
+        stringTask.removeSubstringBetweenGivenSymbols('*');
         System.out.println(stringTask);
     }
 
@@ -237,5 +237,30 @@ public class StringTasks {
         matcher.appendTail(result);
 
         setResultString(result.toString());
+    }
+
+    /**
+     * Remove part of text enclosed between given characters.
+     * @param startSymbol a character of removal beginning
+     * @param endSymbol a character of removal ending
+     */
+    public void removeSubstringBetweenGivenSymbols(char startSymbol, char endSymbol) {
+        Pattern pattern = Pattern.compile("\\" + String.valueOf(startSymbol) + ".*" + "\\" + String.valueOf(endSymbol));
+        Matcher matcher = pattern.matcher(getInitialString());
+        StringBuilder result = new StringBuilder(getInitialString());
+
+        while (matcher.find()) {
+            result.replace(matcher.start(), matcher.end(), "");
+        }
+        setResultString(result.toString());
+    }
+
+    /**
+     * Equivalent to {@link #removeSubstringBetweenGivenSymbols(char, char)} when {@code startSymbol, endSymbol} are
+     * same
+     * @param symbol a character which wraps removable substring
+     */
+    public void removeSubstringBetweenGivenSymbols(char symbol) {
+        removeSubstringBetweenGivenSymbols(symbol, symbol);
     }
 }
