@@ -147,4 +147,22 @@ public class StringTasksTest {
         string.removeSubstringBetweenGivenSymbols('*');
         assertEquals(resultString, string.getResultString());
     }
+
+    @Test
+    public void testWordFrequency() throws Exception {
+        final String initialString = "lorem ipsum lorem dolor lorem dolor";
+        final String resultString = "{lorem=3, ipsum=1, dolor=2}";
+        StringTasks string = new StringTasks(initialString);
+        string.countWordFrequencyIgnoreCase();
+        assertEquals(resultString, string.getResultString());
+    }
+
+    @Test
+    public void testWordFrequencyWithNonLetters() throws  Exception {
+        final String initialString = "l0r3m ips@m l0r3m d%l%r l0r3m d%l%r";
+        final String resultString = "{l0r3m=3, ips@m=1, d%l%r=2}";
+        StringTasks string = new StringTasks(initialString);
+        string.countWordFrequencyIgnoreCase();
+        assertEquals(resultString, string.getResultString());
+    }
 }

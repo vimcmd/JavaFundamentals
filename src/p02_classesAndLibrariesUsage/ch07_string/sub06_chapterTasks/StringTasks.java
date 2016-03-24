@@ -1,7 +1,9 @@
 package p02_classesAndLibrariesUsage.ch07_string.sub06_chapterTasks;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -31,8 +33,8 @@ public class StringTasks {
     }
 
     public static void main(String[] args) {
-        StringTasks stringTask = new StringTasks("lorem *temet ememo somnem, indeo *alem");
-        stringTask.removeSubstringBetweenGivenSymbols('*');
+        StringTasks stringTask = new StringTasks();
+        stringTask.countWordFrequencyIgnoreCase();
         System.out.println(stringTask);
     }
 
@@ -258,9 +260,27 @@ public class StringTasks {
     /**
      * Equivalent to {@link #removeSubstringBetweenGivenSymbols(char, char)} when {@code startSymbol, endSymbol} are
      * same
+     *
      * @param symbol a character which wraps removable substring
      */
     public void removeSubstringBetweenGivenSymbols(char symbol) {
         removeSubstringBetweenGivenSymbols(symbol, symbol);
+    }
+
+    /**
+     * Counts frequency of each word ignore case
+     */
+    public void countWordFrequencyIgnoreCase() {
+        Pattern pattern = Pattern.compile("\\b\\S+\\b");
+        Matcher matcher = pattern.matcher(getInitialString());
+        Map<String, Integer> wordFrequencyMap = new LinkedHashMap<>();
+
+        while (matcher.find()) {
+            final String key = matcher.group().toLowerCase();
+            final int value = wordFrequencyMap.containsKey(key) ? wordFrequencyMap.get(key) + 1 : 1;
+            wordFrequencyMap.put(key, value);
+        }
+
+        setResultString(wordFrequencyMap.toString());
     }
 }
