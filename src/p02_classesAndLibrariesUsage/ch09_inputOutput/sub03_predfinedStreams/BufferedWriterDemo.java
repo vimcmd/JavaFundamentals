@@ -1,13 +1,15 @@
 package p02_classesAndLibrariesUsage.ch09_inputOutput.sub03_predfinedStreams;
 
 import java.io.*;
+import java.util.Locale;
 
 /* # 4 # Buffered write to file */
 
 public class BufferedWriterDemo {
 
     public static void main(String[] args) {
-        File f = new File("data\\res.txt");
+        String filePath = "src\\p02_classesAndLibrariesUsage\\ch09_inputOutput\\sub03_predfinedStreams\\res.txt";
+        File f = new File(filePath);
         double arr[] = {1.10, 1.21, 1.4412, 5.0, 6.014, 7, 8};
 
         FileWriter fw = null;
@@ -20,7 +22,7 @@ public class BufferedWriterDemo {
             pw = new PrintWriter(bw);
 
             for ( double version : arr ) {
-                pw.printf("Java %.2g%n version", version);
+                pw.printf(Locale.ENGLISH,"Java %.2g%n", version);
             }
         } catch (IOException e) {
             //e.printStackTrace();
