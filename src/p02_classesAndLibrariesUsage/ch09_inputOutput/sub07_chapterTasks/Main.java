@@ -15,8 +15,7 @@ public class Main {
         FileFiller fileFiller = new FileFiller(inputFile);
         fileFiller.fillPoem();
 
-        FileParser fileParser = new FileParser(outputFile);
-
-        // do something with other class
+        FileParser fileParser = new FileParser(inputFile, outputFile);
+        fileParser.toUpperCase();
     }
 }
