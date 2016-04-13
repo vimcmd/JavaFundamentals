@@ -12,12 +12,10 @@ public class Main {
         String output = "output.txt";
         File outputFile = new File(output);
 
-        if (!inputFile.exists()) {
-            inputFile.createNewFile();
-        }
-
         FileFiller fileFiller = new FileFiller(inputFile);
         fileFiller.fillPoem();
+
+        FileParser fileParser = new FileParser(outputFile);
 
         // do something with other class
     }

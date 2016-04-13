@@ -8,11 +8,18 @@ public class FileFiller {
     private File file;
     private FileWriter fileWriter;
 
+    /**
+     * @param file
+     * @throws IOException
+     */
     public FileFiller(File file) throws IOException {
+        if (!file.exists()) {
+            file.createNewFile();
+        }
         if (file.canWrite()) {
             this.file = file;
         } else {
-            throw new IOException("Can not write to file");
+            throw new IOException("Can not write to file or file not exists");
         }
     }
 
