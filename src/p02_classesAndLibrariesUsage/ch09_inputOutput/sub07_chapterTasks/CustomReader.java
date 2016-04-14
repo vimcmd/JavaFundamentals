@@ -4,18 +4,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
 
-public class CapitalizationReader extends BufferedReader {
-    public CapitalizationReader(Reader in) {
+public class CustomReader extends BufferedReader {
+    public CustomReader(Reader in) {
         super(in);
     }
 
-    @Override
-    public String readLine() throws IOException {
+    public String readLineCapitalize() throws IOException {
         String line = super.readLine();
         if (line != null) {
             return line.toUpperCase() + "\n";
         } else {
             return null;
         }
+    }
+
+    public String readLineWithReplace(String findSubstring, String replaceSubstring) {
+        // TODO: 14.04.2016 implement method
+        return null;
     }
 }

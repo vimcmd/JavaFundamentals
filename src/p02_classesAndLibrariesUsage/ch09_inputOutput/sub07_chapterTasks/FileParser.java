@@ -35,14 +35,13 @@ public class FileParser {
         }
     }
 
-
     public void toUpperCase() {
         try (FileWriter fileWriter = new FileWriter(outputFile, true);
              FileReader fileReader = new FileReader(inputFile);
-             CapitalizationReader capitalizationReader = new CapitalizationReader(fileReader)) {
+             CustomReader customReader = new CustomReader(fileReader)) {
 
             String line = "";
-            while (( line = capitalizationReader.readLine() ) != null) {
+            while (( line = customReader.readLineCapitalize() ) != null) {
                 fileWriter.write(line);
             }
 
