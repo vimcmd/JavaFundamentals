@@ -11,6 +11,8 @@ public class FileParser {
     // TODO: 13.04.2016 complete javadoc
 
     /**
+     * NOTE: Initialization invokes clear output file content if file exists and not empty.
+     *
      * @param inputFile
      * @param outputFile
      * @throws IOException
@@ -35,6 +37,9 @@ public class FileParser {
         }
     }
 
+    /**
+     *
+     */
     public void toUpperCase() {
         try (FileWriter fileWriter = new FileWriter(outputFile, true);
              FileReader fileReader = new FileReader(inputFile);
@@ -42,6 +47,26 @@ public class FileParser {
 
             String line = "";
             while (( line = customReader.readLineCapitalize() ) != null) {
+                fileWriter.write(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * @param findSubstring
+     * @param replacement
+     */
+    public void replaceSubstringOnEachLine(String findSubstring, String replacement) {
+        try (FileWriter fileWriter = new FileWriter(outputFile, true);
+             FileReader fileReader = new FileReader(inputFile);
+             CustomReader customReader = new CustomReader(fileReader)) {
+
+            String line = "";
+            while (( line = customReader.readLineAndReplaceSubstring(findSubstring, replacement) ) != null) {
                 fileWriter.write(line);
             }
 

@@ -12,14 +12,18 @@ public class CustomReader extends BufferedReader {
     public String readLineCapitalize() throws IOException {
         String line = super.readLine();
         if (line != null) {
-            return line.toUpperCase() + "\n";
+            return line.toUpperCase() + System.getProperty("line.separator");
         } else {
             return null;
         }
     }
 
-    public String readLineWithReplace(String findSubstring, String replaceSubstring) {
-        // TODO: 14.04.2016 implement method
-        return null;
+    public String readLineAndReplaceSubstring(String findSubstring, String replacement) throws IOException {
+        String line = super.readLine();
+        if (line != null) {
+            return line.replaceAll(findSubstring, replacement) + System.getProperty("line.separator");
+        } else {
+            return null;
+        }
     }
 }

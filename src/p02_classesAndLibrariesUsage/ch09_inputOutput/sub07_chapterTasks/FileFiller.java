@@ -9,7 +9,7 @@ public class FileFiller {
     private FileWriter fileWriter;
 
     /**
-     * @param file
+     * @param file file, which should be filled with some content
      * @throws IOException
      */
     public FileFiller(File file) throws IOException {
