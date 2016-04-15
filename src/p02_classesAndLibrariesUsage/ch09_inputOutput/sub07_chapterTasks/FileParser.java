@@ -2,7 +2,9 @@ package p02_classesAndLibrariesUsage.ch09_inputOutput.sub07_chapterTasks;
 
 import java.io.*;
 
-
+/**
+ * CustomReader wrapper
+ */
 public class FileParser {
     private File inputFile;
     private File outputFile;
@@ -37,6 +39,14 @@ public class FileParser {
         }
     }
 
+    private void clearFile(File file) {
+        try (FileWriter fileWriter = new FileWriter(file, false)) {
+            // do nothing
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      */
@@ -56,7 +66,6 @@ public class FileParser {
     }
 
     /**
-     *
      * @param findSubstring
      * @param replacement
      */
@@ -75,9 +84,19 @@ public class FileParser {
         }
     }
 
-    private void clearFile(File file) {
-        try (FileWriter fileWriter = new FileWriter(file, false)) {
-            // do nothing
+    /**
+     *
+     */
+    public void allWordsStartsWithVowel() {
+        try (FileWriter fileWriter = new FileWriter(outputFile, true);
+             FileReader fileReader = new FileReader(inputFile);
+             CustomReader customReader = new CustomReader(fileReader)) {
+
+            String line = "";
+            while (( line = customReader.readLineAllWordsStartsWithVowel() ) != null) {
+                fileWriter.write(line);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

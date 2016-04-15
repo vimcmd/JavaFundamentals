@@ -16,6 +16,6 @@ public class Main {
         fileFiller.fillPoem();
 
         FileParser fileParser = new FileParser(inputFile, outputFile);
-        fileParser.toUpperCase();
+        fileParser.allWordsStartsWithVowel();
     }
 }
