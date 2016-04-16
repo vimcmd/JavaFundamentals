@@ -101,4 +101,23 @@ public class FileParser {
             e.printStackTrace();
         }
     }
+
+    /**
+     *
+     */
+    public void allWordsWhereLastCharMatchesNextWordFirstChar() {
+        try (FileWriter fileWriter = new FileWriter(outputFile, true);
+             FileReader fileReader = new FileReader(inputFile);
+             CustomReader customReader = new CustomReader(fileReader)) {
+
+            String line = "";
+            while (( line = customReader.readLineAllWordsWhereLastCharEqualsNextWordFirstChar() ) != null) {
+                fileWriter.write(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

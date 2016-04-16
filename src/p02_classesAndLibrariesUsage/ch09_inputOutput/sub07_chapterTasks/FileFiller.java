@@ -115,4 +115,21 @@ public class FileFiller {
             }
         }
     }
+
+    public void fillWordsWithSameEndStart() {
+        try {
+            String content = "word dorn removed some eon need removed owkland dorn\n" +
+                    "palindromes: nixin nixin nixin nixin nixin";
+            fileWriter = new FileWriter(file, false);
+            fileWriter.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

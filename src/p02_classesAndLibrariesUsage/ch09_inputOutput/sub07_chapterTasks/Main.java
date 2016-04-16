@@ -12,10 +12,12 @@ public class Main {
         String output = "output.txt";
         File outputFile = new File(output);
 
+        // TODO: 16.04.2016 write tests
+
         FileFiller fileFiller = new FileFiller(inputFile);
-        fileFiller.fillPoem();
+        fileFiller.fillWordsWithSameEndStart();
 
         FileParser fileParser = new FileParser(inputFile, outputFile);
-        fileParser.allWordsStartsWithVowel();
+        fileParser.allWordsWhereLastCharMatchesNextWordFirstChar();
     }
 }
