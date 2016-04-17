@@ -76,45 +76,36 @@ public class CustomReader extends BufferedReader {
         String line = super.readLine();
 
         if (line != null) {
-            Pattern pattern = Pattern.compile("\\b\\w+\\b");
-            Matcher matcher = pattern.matcher(line);
-            ArrayList<String> words = new ArrayList<>();
-            ArrayList<String> resultWords = new ArrayList<>(); // ordered set
+            Pattern word = Pattern.compile("\\b\\w+\\b");
+            Matcher wordMatcher = word.matcher(line);
+            StringBuilder result = new StringBuilder();
+            String previousWord = "";
+            String currentWord = "";
 
-            while (matcher.find()) {
-                words.add(matcher.group());
-            }
 
-            for(int i = 0; i < words.size(); i++) {
-                if (i + 1 >= words.size()) {
+            while (wordMatcher.find()) {
+
+                if (previousWord.equals("")) {
+                    // setting previous word and skip first iteration
+                    previousWord = wordMatcher.group();
                     continue;
                 }
-                String currentWord = words.get(i);
-                char currentWordLastChar = currentWord.charAt(currentWord.length() - 1);
-                String nextWord = words.get(i + 1);
-                char nextWordFirstChar = nextWord.charAt(0);
 
-                if (currentWordLastChar == nextWordFirstChar) {
-                    resultWords.add(currentWord.substring(0, currentWord.length() - 1) +
-                            "(" + currentWordLastChar + ")" +
-                            nextWord.substring(1) + ";");
+                currentWord = wordMatcher.group();
 
-                    {
-                        //if (resultWords.size() <= 1) {
-                        //    resultWords.add(words.get(i));
-                        //} else if (resultWords.size() > 1 && !( resultWords.get(resultWords.size() - 1) ).equals(currentWord)) {
-                        //    // prevent duplication with last added word
-                        //    resultWords.add(words.get(i));
-                        //}
-
-
-                        //resultWords.add(words.get(i));
-                        //resultWords.add(words.get(i + 1) + ";");
-                    }
+                if (currentWord.charAt(0) == previousWord.charAt(previousWord.length() - 1)) {
+                    result.append(previousWord.substring(0, previousWord.length() - 1))
+                          .append("(")
+                          .append(Character.toUpperCase(currentWord.charAt(0)))
+                          .append(")")
+                          .append(currentWord.substring(1))
+                          .append("; ");
                 }
+
+                previousWord = currentWord;
             }
 
-            return String.join(" ", resultWords).trim() + System.getProperty("line.separator");
+            return result.toString().trim() + System.getProperty("line.separator");
 
         } else {
             return null;
