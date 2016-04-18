@@ -15,9 +15,9 @@ public class Main {
         // TODO: 16.04.2016 write tests
 
         FileFiller fileFiller = new FileFiller(inputFile);
-        fileFiller.fillWordsWithSameEndStart();
+        fileFiller.fillWordsWithNumbers();
 
         FileParser fileParser = new FileParser(inputFile, outputFile);
-        fileParser.allWordsWhereLastCharMatchesNextWordFirstChar();
+        fileParser.allLongestNumbers();
     }
 }

@@ -3,7 +3,6 @@ package p02_classesAndLibrariesUsage.ch09_inputOutput.sub07_chapterTasks;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,7 +79,7 @@ public class CustomReader extends BufferedReader {
      * Read a line of text and returns result. Adds line break in the end of line.
      *
      * @return Only words in special form where last character equal to first character of next word.
-     *         For ex.: for words "word door" result will be "wor(D)oor;"
+     * For ex.: for words "word door" result will be "wor(D)oor;"
      * @throws IOException If an I/O error occurs
      * @see BufferedReader#readLine()
      */
@@ -115,6 +114,41 @@ public class CustomReader extends BufferedReader {
                 }
 
                 previousWord = currentWord;
+            }
+
+            return result.toString().trim() + System.getProperty("line.separator");
+
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Read a line of text and returns result. Adds line break in the end of line.
+     *
+     * @return Longest number in line or few separated with whitespace if same length.
+     * @throws IOException If an I/O error occurs
+     * @see BufferedReader#readLine()
+     */
+    public String readLineAndFindLongestNumber() throws IOException {
+        String line = super.readLine();
+
+        if (line != null) {
+            Pattern pattern = Pattern.compile("\\b\\d+\\b");
+            Matcher longestNumberMatcher = pattern.matcher(line);
+            StringBuilder result = new StringBuilder();
+            int maxLength = 0;
+
+            while (longestNumberMatcher.find()) {
+                if (longestNumberMatcher.group().length() > maxLength) {
+                    maxLength = longestNumberMatcher.group().length();
+                    // refill with new largest value
+                    result.delete(0, result.length());
+                    result.trimToSize();
+                    result.append(longestNumberMatcher.group()).append(" ");
+                } else if (longestNumberMatcher.group().length() == maxLength) {
+                    result.append(longestNumberMatcher.group()).append(" ");
+                }
             }
 
             return result.toString().trim() + System.getProperty("line.separator");

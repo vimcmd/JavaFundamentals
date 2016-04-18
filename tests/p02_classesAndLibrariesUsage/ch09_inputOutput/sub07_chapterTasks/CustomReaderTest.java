@@ -97,4 +97,26 @@ public class CustomReaderTest {
 
         assertEquals(outputString, output.toString());
     }
+
+    @Test
+    public void testReadLineAndFindLongestNumber() throws Exception {
+        String inputString = "lorem ipsum 026 dolor 003125476 sit amet 645234\r\n" +
+                "consectetur 21 311 64 adipisicing elit 0.1567\r\n" +
+                "sed 0123 do 4563 eiusmod";
+        String outputString = "003125476\r\n" +
+                "1567\r\n" +
+                "0123 4563\r\n";
+
+        StringWriter output = new StringWriter();
+        final StringReader input = new StringReader(inputString);
+
+        CustomReader customReader = new CustomReader(input);
+
+        String out = "";
+        while (( out = customReader.readLineAndFindLongestNumber() ) != null) {
+            output.write(out);
+        }
+
+        assertEquals(outputString, output.toString());
+    }
 }

@@ -118,6 +118,23 @@ public class FileParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    /**
+     *
+     */
+    public void allLongestNumbers() {
+        try (FileWriter fileWriter = new FileWriter(outputFile, true);
+             FileReader fileReader = new FileReader(inputFile);
+             CustomReader customReader = new CustomReader(fileReader)) {
+
+            String line = "";
+            while (( line = customReader.readLineAndFindLongestNumber() ) != null) {
+                fileWriter.write(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

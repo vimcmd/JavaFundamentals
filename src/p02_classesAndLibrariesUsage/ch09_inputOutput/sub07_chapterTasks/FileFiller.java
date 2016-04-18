@@ -132,4 +132,22 @@ public class FileFiller {
             }
         }
     }
+
+    public void fillWordsWithNumbers() {
+        try {
+            String content = "lorem ipsum 026 dolor 003125476 sit amet 645234\n" +
+                    "consectetur 21 311 64 adipisicing elit 0.1567\n" +
+                    "sed 0123 do 4563 eiusmod";
+            fileWriter = new FileWriter(file, false);
+            fileWriter.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
