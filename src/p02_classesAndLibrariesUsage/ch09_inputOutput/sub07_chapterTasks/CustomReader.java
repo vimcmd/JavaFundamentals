@@ -3,10 +3,13 @@ package p02_classesAndLibrariesUsage.ch09_inputOutput.sub07_chapterTasks;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Implements chapter 9 tasks.
+ */
 public class CustomReader extends BufferedReader {
 
     public CustomReader(Reader in) {
@@ -14,10 +17,11 @@ public class CustomReader extends BufferedReader {
     }
 
     /**
-     * Reads line and capitalizes all characters.
+     * Read a line of text and returns result. Adds line break in the end of line.
      *
-     * @return uppercase String
-     * @throws IOException
+     * @return a capitalized String
+     * @throws IOException If an I/O error occurs
+     * @see BufferedReader#readLine()
      */
     public String readLineCapitalize() throws IOException {
         String line = super.readLine();
@@ -29,10 +33,13 @@ public class CustomReader extends BufferedReader {
     }
 
     /**
+     * Read a line of text and returns result. Adds line break in the end of line.
+     *
      * @param findSubstring string is to be matched
      * @param replacement   the string to be substituted for each match
      * @return The resulting String
-     * @throws IOException
+     * @throws IOException If an I/O error occurs
+     * @see BufferedReader#readLine()
      */
     public String readLineAndReplaceSubstring(String findSubstring, String replacement) throws IOException {
         String line = super.readLine();
@@ -44,10 +51,11 @@ public class CustomReader extends BufferedReader {
     }
 
     /**
-     * Reads line and searches only words starting with vowels (russian and english)
+     * Read a line of text and returns result. Adds line break in the end of line.
      *
-     * @return resulting string
-     * @throws IOException
+     * @return String containing only words starting with vowel (russian and english)
+     * @throws IOException If an I/O error occurs
+     * @see BufferedReader#readLine()
      */
     public String readLineAllWordsStartsWithVowel() throws IOException {
         String line = super.readLine();
@@ -69,8 +77,12 @@ public class CustomReader extends BufferedReader {
     }
 
     /**
-     * @return
-     * @throws IOException
+     * Read a line of text and returns result. Adds line break in the end of line.
+     *
+     * @return Only words in special form where last character equal to first character of next word.
+     *         For ex.: for words "word door" result will be "wor(D)oor;"
+     * @throws IOException If an I/O error occurs
+     * @see BufferedReader#readLine()
      */
     public String readLineAllWordsWhereLastCharEqualsNextWordFirstChar() throws IOException {
         String line = super.readLine();
