@@ -34,6 +34,8 @@ public class DemoHashSet {
             System.out.println(iterator.next());
         }
 
+        //words.forEach(System.out::println); // using foreach with method reference
+
         TreeSet<String> treeSet = new TreeSet<>(words); // implements SortedSet, where sorting rule implemented by Comparable interface
         System.out.println(treeSet);
         long totalTime = System.nanoTime() - callTime;
