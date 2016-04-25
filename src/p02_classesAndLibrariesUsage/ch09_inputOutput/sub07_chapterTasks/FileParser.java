@@ -1,6 +1,8 @@
 package p02_classesAndLibrariesUsage.ch09_inputOutput.sub07_chapterTasks;
 
 import java.io.*;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * CustomReader wrapper
@@ -151,6 +153,47 @@ public class FileParser {
                 fileWriter.write(line);
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Counts frequency of letters and words in file
+     */
+    public void wordsAndLettersFrequency() {
+        try (FileWriter fileWriter = new FileWriter(outputFile, true);
+             FileReader fileReader = new FileReader(inputFile);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+
+            Map<Character, Integer> characterFrequency = new TreeMap<>();
+            Map<String, Integer> wordFrequency = new TreeMap<>();
+
+            String line = "";
+            while (( line = bufferedReader.readLine() ) != null) {
+                for(Character letter : line.toLowerCase().toCharArray()) {
+                    if (Character.isAlphabetic(letter)) {
+                        int count = characterFrequency.containsKey(letter) ? characterFrequency.get(letter) : 0;
+                        characterFrequency.put(letter, count + 1);
+                    }
+                }
+
+                for(String word : line.toLowerCase().split("\\W+")) {
+                    if (!word.isEmpty()) {
+                        int count = wordFrequency.containsKey(word) ? wordFrequency.get(word) : 0;
+                        wordFrequency.put(word, count + 1);
+                    }
+                }
+            }
+
+            fileWriter.write("Letter frequency:" + System.getProperty("line.separator"));
+            fileWriter.write(characterFrequency.toString() + System.getProperty("line.separator"));
+            fileWriter.write("Word frequency:" + System.getProperty("line.separator"));
+            fileWriter.write(wordFrequency.toString());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
