@@ -14,7 +14,7 @@ public class FileFiller {
      */
     public FileFiller(File file) throws IOException {
         if (!file.exists()) {
-            if (!file.getParentFile().exists()) {
+            if (file.getParentFile() != null && !file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
             file.createNewFile();
