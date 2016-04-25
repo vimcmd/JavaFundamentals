@@ -179,7 +179,7 @@ public class FileParser {
                     }
                 }
 
-                for(String word : line.toLowerCase().split("\\W+")) {
+                for(String word : line.toLowerCase().split("[^0-9_A-Za-zА-Яа-я]+")) {
                     if (!word.isEmpty()) {
                         int count = wordFrequency.containsKey(word) ? wordFrequency.get(word) : 0;
                         wordFrequency.put(word, count + 1);
