@@ -137,4 +137,23 @@ public class FileParser {
             e.printStackTrace();
         }
     }
+
+    /**
+     * @param in String containing words to count
+     */
+    public void wordsFrequencyFromListInAscendingOrder(String in) {
+        try (FileWriter fileWriter = new FileWriter(outputFile, true);
+             FileReader fileReader = new FileReader(inputFile);
+             CustomReader customReader = new CustomReader(fileReader)) {
+
+            String line = "";
+            while (( line = customReader.readLineAndCountFrequencyOfPredefinedWords(in) ) != null) {
+                fileWriter.write(line);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

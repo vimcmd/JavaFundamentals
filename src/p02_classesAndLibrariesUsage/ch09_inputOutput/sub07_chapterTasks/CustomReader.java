@@ -3,6 +3,7 @@ package p02_classesAndLibrariesUsage.ch09_inputOutput.sub07_chapterTasks;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -152,6 +153,47 @@ public class CustomReader extends BufferedReader {
             }
 
             return result.toString().trim() + System.getProperty("line.separator");
+
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Read a line of text and returns frequency of given predefined words in ascending order.
+     * @param predefinedWords String containing words to count
+     * @return given words frequency sorted in ascending order by frequency
+     * @throws IOException If an I/O error occurs
+     * @see BufferedReader#readLine()
+     */
+    public String readLineAndCountFrequencyOfPredefinedWords(String predefinedWords) throws IOException {
+        String line = super.readLine();
+
+        if (line != null) {
+            Map<String, Integer> wordsFrequency = new HashMap<>();
+
+            String[] words = line.toLowerCase().split("\\W+");
+            for(String word : words) {
+                // match whole word, not part as it is in contains() method
+                if (!word.isEmpty() && ( predefinedWords.toLowerCase() ).matches(".*\\b" + word + "\\b.*")) {
+                    int count = wordsFrequency.containsKey(word) ? wordsFrequency.get(word) : 0;
+                    wordsFrequency.put(word, count + 1);
+                }
+            }
+
+            List<Map.Entry<String, Integer>> wordsFrequencySorted = new ArrayList<Map.Entry<String, Integer>>(wordsFrequency
+                    .entrySet());
+            Collections.sort(wordsFrequencySorted, new Comparator<Map.Entry<String, Integer>>() {
+                @Override
+                public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                    return ( o1.getValue() ).compareTo(o2.getValue());
+                }
+            });
+
+            // trim array brackets []
+            String result = wordsFrequencySorted.toString();
+
+            return result.substring(1, result.length() - 1) + System.getProperty("line.separator");
 
         } else {
             return null;
