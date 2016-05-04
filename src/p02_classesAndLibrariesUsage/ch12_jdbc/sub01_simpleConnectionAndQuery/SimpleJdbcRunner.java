@@ -1,9 +1,6 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SimpleJdbcRunner {
@@ -34,18 +31,41 @@ public class SimpleJdbcRunner {
         // IMPORTANT: do not forget run H2 Console (embedded DB)
         // h2-1.3.176 lib used
         Connection cn = null;
-        try { // 1st block
+        try { // 1st block: Connection
             //DriverManager.registerDriver(new org.h2.Driver());  // JDBC 4.0 auto-loading driver class
             cn = ConnectorDB.getConnection();
             Statement st = null;
 
-            try { // 2nd block
+            try { // 2nd block: Statement and ResultSet
                 st = cn.createStatement();
                 ResultSet rs = null;
+                ResultSetMetaData resultSetMetaData = null;
+                DatabaseMetaData databaseMetaData = null;
 
-                try { //3rd block
+                try { //3rd block: query
                     // some data already added to db via H2 console
                     rs = st.executeQuery("SELECT * FROM phonebook");
+
+                    // example of DatabaseMetaData
+                    databaseMetaData = cn.getMetaData();
+                    System.out.println("-- Database metadata:");
+                    System.out.println("DB name: " + databaseMetaData.getDatabaseProductName());
+                    System.out.println("DB version: " + databaseMetaData.getDatabaseProductVersion());
+                    System.out.println("DB driver: " + databaseMetaData.getDriverName());
+                    System.out.println("DB user: " + databaseMetaData.getUserName());
+                    System.out.println("DB url: " + databaseMetaData.getURL());
+
+                    // example of ResultSetMetaData
+                    resultSetMetaData = rs.getMetaData();
+                    System.out.println("-- ResultSet metadata:");
+                    System.out.println("Columns: " + resultSetMetaData.getColumnCount());
+                    if (resultSetMetaData.getColumnCount() > 0) {
+                        for(int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+                            System.out.println("Column " + i + ": " + resultSetMetaData.getColumnLabel(i) + "(" + resultSetMetaData.getColumnTypeName(i) + ")");
+                        }
+                    }
+
+                    // get data from table
                     ArrayList<Abonent> list = new ArrayList<>();
                     while (rs.next()) {
                         int id = rs.getInt(1);
@@ -55,7 +75,8 @@ public class SimpleJdbcRunner {
                     }
 
                     if (list.size() > 0) {
-                        System.out.println(list);
+                        System.out.println("-- Values:");
+                        list.forEach(System.out::println);
                     } else {
                         System.out.println("Not found or empty");
                     }
