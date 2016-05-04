@@ -3,6 +3,8 @@ package p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery;
 import java.sql.*;
 import java.util.ArrayList;
 
+/* # 1 # simple connection with DB and simple query */
+
 public class SimpleJdbcRunner {
 
     /*

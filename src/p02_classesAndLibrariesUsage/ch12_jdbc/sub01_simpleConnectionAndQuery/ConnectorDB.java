@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/* # 3 # establish connection with database */
+
 public class ConnectorDB {
     public static Connection getConnection() throws SQLException {
         ResourceBundle resource = ResourceBundle.getBundle("properties.database-phonebook");

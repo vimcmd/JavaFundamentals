@@ -1,5 +1,7 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery;
 
+/* # 2.2 # class with information */
+
 public class Abonent extends Entity {
     private int phone;
     private String name;
