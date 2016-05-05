@@ -3,23 +3,23 @@ package p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery;
 /* # 2.2 # class with information */
 
 public class Abonent extends Entity {
-    private int phone;
+    private String phone;
     private String name;
 
     public Abonent() {
     }
 
-    public Abonent(int id, int phone, String name) {
+    public Abonent(int id, String phone, String name) {
         super(id);
         this.phone = phone;
         this.name = name;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

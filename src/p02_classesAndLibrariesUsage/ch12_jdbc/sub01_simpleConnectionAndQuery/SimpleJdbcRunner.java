@@ -63,7 +63,8 @@ public class SimpleJdbcRunner {
                     System.out.println("Columns: " + resultSetMetaData.getColumnCount());
                     if (resultSetMetaData.getColumnCount() > 0) {
                         for(int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
-                            System.out.println("Column " + i + ": " + resultSetMetaData.getColumnLabel(i) + "(" + resultSetMetaData.getColumnTypeName(i) + ")");
+                            System.out.println("Column " + i + ": " + resultSetMetaData.getColumnLabel(i) + "(" + resultSetMetaData
+                                    .getColumnTypeName(i) + ")");
                         }
                     }
 
@@ -71,7 +72,7 @@ public class SimpleJdbcRunner {
                     ArrayList<Abonent> list = new ArrayList<>();
                     while (rs.next()) {
                         int id = rs.getInt(1);
-                        int phone = rs.getInt(2);
+                        String phone = rs.getString(2);
                         String name = rs.getString(3);
                         list.add(new Abonent(id, phone, name));
                     }

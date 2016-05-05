@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBHelper {
-    private static final String SQL_INSERT = "INSERT INTO phonebook(idphonebook, phone, name) VALUES(?, ?, ?)";
+    private static final String SQL_INSERT = "INSERT INTO phonebook(id, phone, name) VALUES(?, ?, ?)";
     private Connection connection;
 
     public DBHelper() throws SQLException {
@@ -31,7 +31,7 @@ public class DBHelper {
         boolean flag = false;
         try {
             preparedStatement.setInt(1, abonent.getId());
-            preparedStatement.setInt(2, abonent.getPhone());
+            preparedStatement.setString(2, abonent.getPhone());
             preparedStatement.setString(3, abonent.getName());
             preparedStatement.executeUpdate();
             flag = true;
