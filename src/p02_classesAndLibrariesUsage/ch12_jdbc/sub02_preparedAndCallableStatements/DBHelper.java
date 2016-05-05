@@ -17,7 +17,11 @@ public class DBHelper {
         connection = ConnectorDB.getConnection();
     }
 
+
     public PreparedStatement getPreparedStatement() {
+        // prepared statement is faster than usual operators, because it initially prepared
+        // it is noticeable on large number of similar queries
+        // see also CallableStatement
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(SQL_INSERT);
@@ -30,6 +34,7 @@ public class DBHelper {
     public boolean insertAbonent(PreparedStatement preparedStatement, Abonent abonent) {
         boolean flag = false;
         try {
+            // in this case prepared statement can avoid sql injection - you can filter input data
             preparedStatement.setInt(1, abonent.getId());
             preparedStatement.setString(2, abonent.getPhone());
             preparedStatement.setString(3, abonent.getName());
