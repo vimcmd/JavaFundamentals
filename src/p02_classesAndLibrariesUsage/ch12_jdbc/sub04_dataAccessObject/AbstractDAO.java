@@ -7,7 +7,8 @@ import java.util.List;
 /* # 7 # common methods to interact with data model */
 
 /**
- * The top of DAO hierarchy (also may be interface). Typically, this is set of CRUD/SCRUD methods
+ * The top of DAO hierarchy (also may be interface). Typically, this is set of CRUD/SCRUD methods.
+ * DAO is a layer between application and database. DAO abstracts business-entities and abstracts them on database record.
  *
  * @param <K> describes key in table (in very rare cases, table may not contain primary key)
  * @param <T> describes common system business-entity
