@@ -5,17 +5,20 @@ import p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery.Abo
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 /* # 5 # adding few records to DB */
 
 public class PreparedJdbcRunner {
     public static void main(String[] args) {
         List<Abonent> abonents = new ArrayList<Abonent>();
+        List<String> names = Arrays.asList("Phyliss Havener", "Anisha Mannella", "Dawn Mcafee", "Tyson Harbor", "Thurman Hokanson", "Davis Janelle", "Man Graeber", "Elba Trull", "Nereida Kutcher", "Shela Sabatini", "Dania Faucette", "Willow Woodcock", "Morton Suther", "Sherrill Clower", "Wesley Tostado", "Hye Strand", "Carie Knight", "Darci Ranger", "Homer Hesler", "Krystle Harnage");
         for(int i = 1; i < 100; i++) {
-            abonents.add(new Abonent(i, String.valueOf(new Random().nextInt(99999999)), UUID.randomUUID().toString()));
+            String phone = String.valueOf(new Random().nextInt(Integer.MAX_VALUE));
+            String name = names.get(new Random().nextInt(names.size()));
+            abonents.add(new Abonent(i, phone, name));
         }
 
         DBHelper helper = null;
