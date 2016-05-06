@@ -2,6 +2,9 @@ package p02_classesAndLibrariesUsage.ch12_jdbc.sub04_dataAccessObject;
 
 import p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery.Entity;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 /* # 7 # common methods to interact with data model */
@@ -30,5 +33,27 @@ public abstract class AbstractDAO<K, T extends Entity> {
     // this class also may contain methods for close connection/statement and return it to pool
     // close(Statement st)
     // close(Connection cn)
+
+    public void close(Statement statement) {
+        try {
+            if (statement != null) {
+                statement.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // or trace log
+        }
+    }
+
+    public void close(Connection connection) {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // exception generation because pool working are broke
+        }
+    }
 
 }
