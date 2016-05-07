@@ -2,7 +2,6 @@ package p02_classesAndLibrariesUsage.ch12_jdbc.sub04_dataAccessObject.dao01_meth
 
 import p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery.Abonent;
 import p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery.ConnectorDB;
-import p02_classesAndLibrariesUsage.ch12_jdbc.sub04_dataAccessObject.AbstractDAO;
 
 import java.sql.*;
 import java.util.ArrayList;

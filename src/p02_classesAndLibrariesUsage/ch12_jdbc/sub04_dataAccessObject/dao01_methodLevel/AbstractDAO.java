@@ -1,4 +1,4 @@
-package p02_classesAndLibrariesUsage.ch12_jdbc.sub04_dataAccessObject;
+package p02_classesAndLibrariesUsage.ch12_jdbc.sub04_dataAccessObject.dao01_methodLevel;
 
 import p02_classesAndLibrariesUsage.ch12_jdbc.sub01_simpleConnectionAndQuery.Entity;
 
