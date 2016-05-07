@@ -16,7 +16,7 @@ import java.util.List;
  * @param <K> describes key in table (in very rare cases, table may not contain primary key)
  * @param <T> describes common system business-entity
  */
-public abstract class AbstractDAO<K, T extends Entity> {
+public abstract class AbstractDao<K, T extends Entity> {
 
     public abstract List<T> findAll();
 

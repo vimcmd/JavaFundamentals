@@ -9,7 +9,7 @@ import java.sql.Statement;
  * In this case abstract DAO class in top of hierarchy besides standard CRUD methods can declare Connection to database
  * or its wrapper.
  */
-public abstract class AbstractDAO {
+public abstract class AbstractDao {
     protected WrapperConnector connector;
     // CRUD methods
 

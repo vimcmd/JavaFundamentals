@@ -6,7 +6,7 @@ import java.util.List;
 
 public class AbonentDaoRunner {
     public static void main(String[] args) {
-        AbonentDAO abonentDao = new AbonentDAO(); // connection was created
+        AbonentDao abonentDao = new AbonentDao(); // connection was created
         List<Abonent> abonents = abonentDao.findAll();
 
         abonents.forEach(System.out::println);

@@ -14,7 +14,7 @@ import java.util.List;
  * may be added own methods, which definition in parent (common) class was impossible in case of highly specialization.
  * (In this case findAbonentByName() method)
  */
-public class AbonentDao extends AbstractDAO<Integer, Abonent> {
+public class AbonentDao extends AbstractDao<Integer, Abonent> {
     public static final String SQL_SELECT_ALL_ABONENTS = "SELECT * FROM phonebook";
     public static final String SQL_SELECT_ABONENT_BY_NAME = "SELECT * FROM phonebook WHERE name=?";
 

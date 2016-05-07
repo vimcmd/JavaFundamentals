@@ -14,10 +14,10 @@ import java.util.List;
  * Concrete DAO realization in this interaction way (class level), all methods must never close connection.
  * Connection must be closed in the part of business-logic, from which DAO was called (invoked).
  */
-public class AbonentDAO extends AbstractDAO {
+public class AbonentDao extends AbstractDao {
     public static final String SQL_SELECT_ALL_ABONENTS = "SELECT * FROM phonebook";
 
-    public AbonentDAO() {
+    public AbonentDao() {
         this.connector = new WrapperConnector();
     }
 
