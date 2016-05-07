@@ -9,6 +9,13 @@ import java.util.ResourceBundle;
 
 /* # 12 # connection wrapper class */
 
+/**
+ * Connection with database initialized in DAO constructor, or obtained it from pool. Still available abilities to
+ * create/close statement and execute queries. In this case used wrapper class for connection to database,
+ * encapsulates process of creating connection and simplifies its usage. This approach of pool organization from
+ * wrapper instances dramatically complicates entering "wild connections" (connection created by developer bypassing pool)
+ *  to pool.
+ */
 public class WrapperConnector {
     private Connection connection;
 
