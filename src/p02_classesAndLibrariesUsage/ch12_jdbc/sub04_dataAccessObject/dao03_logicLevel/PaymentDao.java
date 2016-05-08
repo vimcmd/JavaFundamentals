@@ -17,7 +17,7 @@ public class PaymentDao extends AbstractDao<Payment> {
     // methods realization
 
     @Override
-    public List<Abonent> findAll() {
+    public List<Payment> findAll() {
         return null;
     }
 
