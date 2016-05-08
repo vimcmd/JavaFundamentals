@@ -31,6 +31,7 @@ public class ConnectionPool {
     }
 
     /**
+     * just for explicit visibility
      * will produce NoInitialContextException
      *
      * @return
@@ -41,5 +42,14 @@ public class ConnectionPool {
         return connection;
     }
 
-    // method to return connection to pool
+
+    /**
+     * just for explicit visibility
+     * method to return connection to pool
+     * will produce NoInitialContextException
+     * @param connection
+     */
+    public static void close(Connection connection) {
+        // close connection and return it to pool
+    }
 }
