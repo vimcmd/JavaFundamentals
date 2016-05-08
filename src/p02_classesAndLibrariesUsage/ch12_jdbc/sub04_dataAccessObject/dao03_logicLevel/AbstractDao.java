@@ -23,7 +23,7 @@ public abstract class AbstractDao <T extends Entity>{
         this.connection = connection;
     }
 
-    public abstract List<Abonent> findAll();
+    public abstract List<T> findAll();
 
     public abstract T findEntityById(int id);
 
