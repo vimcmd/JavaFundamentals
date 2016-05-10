@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /* # 2.1 # class with information */
 
-public class Entity implements Serializable, Cloneable {
+public abstract class Entity implements Serializable, Cloneable {
     private int id;
 
     public Entity() {

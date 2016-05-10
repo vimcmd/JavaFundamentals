@@ -6,11 +6,11 @@ In database stored data about file system tree:
 
 ##### For directories need to store:
 - parent directory;
-- name.
+- directoryName.
 
 ##### For file need to store:
 - parent directory;
-- name;
+- directoryName;
 - file size.
 
 ##### Tasks:

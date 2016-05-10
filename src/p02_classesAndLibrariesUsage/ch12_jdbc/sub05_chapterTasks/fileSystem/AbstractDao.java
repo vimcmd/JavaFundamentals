@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.util.List;
 
 public abstract class AbstractDao <T extends Entity> {
-    protected Connection connection;
+    protected WrapperConnector wrapperConnector;
 
-    public AbstractDao(Connection connection) {
-        this.connection = connection;
+    public AbstractDao(WrapperConnector wrapperConnector) {
+        this.wrapperConnector = wrapperConnector;
     }
 
     public abstract List<T> findAll();

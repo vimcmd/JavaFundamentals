@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /* base entity parent class */
 
-public class Entity implements Serializable, Cloneable {
+public abstract class Entity implements Serializable, Cloneable {
     private Integer id;
 
     public Entity() {
@@ -21,4 +21,6 @@ public class Entity implements Serializable, Cloneable {
     public void setId(int id) {
         this.id = id;
     }
+
+    public abstract String getPath();
 }

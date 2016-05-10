@@ -1,21 +1,39 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem;
 
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.directory.DirectoryDao;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.directory.DirectoryEntity;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.file.FileDao;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class FileSystemRunner {
     public static void main(String[] args) throws SQLException {
-        Connection connection = DbConnector.getConnection();
-        connection.setAutoCommit(false);
+        long start = System.currentTimeMillis();
+        //Connection connection = DbConnector.getConnection();
 
-        DbHelper dbHelper = new DbHelper(connection);
+        WrapperConnector wrapperConnector = new WrapperConnector();
+        wrapperConnector.setAutoCommit(false);
+
+        DbHelper dbHelper = new DbHelper(wrapperConnector);
         dbHelper.recreateTables();
 
-        //dbHelper.createDir("root\\subroot2\\newFolder", "\\\\");
-        dbHelper.createFile("root\\subroot\\whoa\\newfile", "\\\\", 3465245);
-        dbHelper.createFile("root\\brandNewFile", "\\\\", 123);
+        FileDao fileDao = new FileDao(wrapperConnector);
+        DirectoryDao dirDao = new DirectoryDao(wrapperConnector);
 
-        connection.commit();
-        DbConnector.closeConnection(connection);
+
+        DirectoryEntity root = new DirectoryEntity("ROOT");
+
+        DirectoryEntity subRoot = new DirectoryEntity(root, "subroot");
+
+        dirDao.createEntity(root);
+        dirDao.createEntity(subRoot);
+
+        //FileDao.createFile("root\\subroot\\whoa\\newfile", "\\\\", 3465245);
+        //dbHelper.createFile("root\\brandNewFile", "\\\\", 123);
+
+        wrapperConnector.commit();
+        wrapperConnector.closeConnection();
+        System.out.println(( System.currentTimeMillis() - start ) + " ms");
     }
 }
