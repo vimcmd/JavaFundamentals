@@ -11,9 +11,9 @@ public class FileSystemRunner {
         DbHelper dbHelper = new DbHelper(connection);
         dbHelper.recreateTables();
 
-        //dbHelper.createDir("root\\subroot2\\newFolder", "\\\\");
-        dbHelper.createFile("root\\subroot\\whoa\\newfile", "\\\\", 3465245);
-        dbHelper.createFile("root\\brandNewFile", "\\\\", 123);
+        final String delimiter = "\\\\";
+        dbHelper.createFile("root\\subroot\\whoa\\newfile", delimiter, 3465245);
+        dbHelper.createFile("root\\brandNewFile", delimiter, 123);
 
         connection.commit();
         DbConnector.closeConnection(connection);
