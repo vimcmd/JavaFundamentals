@@ -1,7 +1,7 @@
-package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.file;
+package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystemOld.file;
 
-import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.Entity;
-import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.directory.DirectoryEntity;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystemOld.Entity;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystemOld.directory.DirectoryEntity;
 
 public class FileEntity extends Entity {
     private DirectoryEntity parentDirectory;

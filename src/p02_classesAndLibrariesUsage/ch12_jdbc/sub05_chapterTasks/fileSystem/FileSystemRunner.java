@@ -1,10 +1,8 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem;
 
-import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.directory.DirectoryDao;
-import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.directory.DirectoryEntity;
-import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.file.FileDao;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.entity.DirectoryEntity;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem.entity.FileEntity;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class FileSystemRunner {
@@ -12,28 +10,29 @@ public class FileSystemRunner {
         long start = System.currentTimeMillis();
         //Connection connection = DbConnector.getConnection();
 
-        WrapperConnector wrapperConnector = new WrapperConnector();
-        wrapperConnector.setAutoCommit(false);
-
-        DbHelper dbHelper = new DbHelper(wrapperConnector);
-        dbHelper.recreateTables();
-
-        FileDao fileDao = new FileDao(wrapperConnector);
-        DirectoryDao dirDao = new DirectoryDao(wrapperConnector);
-
+        //WrapperConnector wrapperConnector = new WrapperConnector();
+        //wrapperConnector.setAutoCommit(false);
+        //
+        //DbHelper dbHelper = new DbHelper(wrapperConnector);
+        //dbHelper.recreateTables();
+        //
+        //wrapperConnector.commit();
+        //wrapperConnector.closeConnection();
 
         DirectoryEntity root = new DirectoryEntity("ROOT");
+        DirectoryEntity subRoot = new DirectoryEntity("subroot");
+        DirectoryEntity newFolder = new DirectoryEntity("new folder");
+        DirectoryEntity newFolder2 = new DirectoryEntity("new folder");
+        FileEntity newFile = new FileEntity("readme.txt", 4235234);
+        root.addSubDirectory(subRoot);
+        subRoot.addSubDirectory(newFolder);
+        subRoot.addSubDirectory(newFolder2);
+        newFolder.addSubFile(newFile);
 
-        DirectoryEntity subRoot = new DirectoryEntity(root, "subroot");
+        System.out.println(root.getAbsolutePath());
+        System.out.println(newFolder.getAbsolutePath());
+        System.out.println(newFile.getAbsolutePath());
 
-        dirDao.createEntity(root);
-        dirDao.createEntity(subRoot);
-
-        //FileDao.createFile("root\\subroot\\whoa\\newfile", "\\\\", 3465245);
-        //dbHelper.createFile("root\\brandNewFile", "\\\\", 123);
-
-        wrapperConnector.commit();
-        wrapperConnector.closeConnection();
         System.out.println(( System.currentTimeMillis() - start ) + " ms");
     }
 }

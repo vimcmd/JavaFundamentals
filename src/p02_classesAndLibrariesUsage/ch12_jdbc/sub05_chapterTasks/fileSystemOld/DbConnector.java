@@ -1,4 +1,4 @@
-package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystem;
+package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.fileSystemOld;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
