@@ -13,7 +13,8 @@ public class Group {
         return id;
     }
 
-    public void setId(Integer id) {
+    // protected for: using only in DAO (in inherited private class) to prevent modifying from other places
+    protected void setId(Integer id) {
         this.id = id;
     }
 

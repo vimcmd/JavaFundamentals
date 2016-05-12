@@ -1,69 +1,92 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.h2;
 
-import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.dao.GroupDao;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.dao.AbstractJdbcDao;
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.dao.PersistException;
 import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.domain.Group;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2GroupDao implements GroupDao {
-    private final Connection connection;
+public class H2GroupDao extends AbstractJdbcDao<Group, Integer> {
 
     public H2GroupDao(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     @Override
-    public Group create() throws SQLException {
-        return null; // not yet implemented
-    }
-
-    @Override
-    public Group read(int key) throws SQLException {
-        final String SQL = "SELECT * FROM `GROUP` WHERE ID=?;";
-        PreparedStatement ps = connection.prepareStatement(SQL);
-
-        ps.setInt(1, key);
-        ResultSet rs = ps.executeQuery();
-        rs.next();
+    public Group create() throws PersistException {
         Group g = new Group();
-        g.setId(rs.getInt("id"));
-        g.setNumber(rs.getInt("number"));
-        g.setDepartment(rs.getString("department"));
-
-        return g;
+        return persist(g); // update reference to object
     }
 
     @Override
-    public void update(Group group) throws SQLException {
-        // not yet implemented
+    public String getSelectQuery() {
+        return "SELECT ID, NUMBER, DEPARTMENT FROM `GROUP`";
     }
 
     @Override
-    public void delete(Group group) throws SQLException {
-        // not yet implemented
+    public String getCreateQuery() {
+        return "INSERT INTO `GROUP`(NUMBER, DEPARTMENT) VALUES(?, ?);";
     }
 
     @Override
-    public List<Group> getAll() throws SQLException {
-        final String SQL = "SELECT * FROM `Group`;";
-        PreparedStatement ps = connection.prepareStatement(SQL);
+    public String getUpdateQuery() {
+        return "UPDATE `GROUP` SET NUMBER=?, DEPARTMENT=? WHERE ID=?";
+    }
 
-        ResultSet rs = ps.executeQuery();
-        List<Group> groups = new ArrayList<>();
+    @Override
+    public String getDeleteQuery() {
+        return "DELETE FROM `GROUP` WHERE ID=?";
+    }
 
-        while (rs.next()) {
-            Group g = new Group();
-            g.setId(rs.getInt("id"));
-            g.setNumber(rs.getInt("number"));
-            g.setDepartment(rs.getString("department"));
-            groups.add(g);
+    @Override
+    protected List<Group> parseResultSet(ResultSet rs) throws PersistException {
+        List<Group> result = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                PersistGroup group = new PersistGroup(); // point of Group implementation substitution (for id injecting)
+                group.setId(rs.getInt("id"));
+                group.setNumber(rs.getInt("number"));
+                group.setDepartment(rs.getString("department"));
+                result.add(group);
+            }
+        } catch (Exception e) {
+            throw new PersistException(e);
         }
+        return result;
+    }
 
-        return groups;
+    @Override
+    protected void prepareStatementForInsert(PreparedStatement ps, Group obj) throws PersistException {
+        try {
+            ps.setInt(1, obj.getNumber());
+            ps.setString(2, obj.getDepartment());
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+    }
+
+    @Override
+    protected void prepareStatementForUpdate(PreparedStatement ps, Group obj) throws PersistException {
+        try {
+            ps.setInt(1, obj.getNumber());
+            ps.setString(2, obj.getDepartment());
+            ps.setInt(3, obj.getId()); // responds for 'WHERE id=?' part
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+    }
+
+    /**
+     * Class for substitute implementation of original Group
+     */
+    private class PersistGroup extends Group {
+        @Override
+        public void setId(Integer id) {
+            super.setId(id);
+        }
     }
 }
