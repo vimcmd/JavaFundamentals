@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 
 public class ConnectorDB {
     public static Connection getConnection() throws SQLException {
-        ResourceBundle resource = ResourceBundle.getBundle("properties.database-phonebook");
+        ResourceBundle resource = ResourceBundle.getBundle("properties.database_phones");
         String url = resource.getString("db.url");
         String user = resource.getString("db.user");
         String pass = resource.getString("db.password");
