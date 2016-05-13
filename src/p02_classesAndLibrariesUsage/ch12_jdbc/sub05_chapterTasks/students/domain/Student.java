@@ -1,12 +1,14 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.domain;
 
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.dao.Identified;
+
 import java.util.Date;
 
 /**
  * Object representation of Student entity
  */
-public class Student {
-    private Integer id = null;
+public class Student implements Identified<Integer> {
+    private int id;
     private String name;
     private String surname;
     private Date enrolmentDate;
@@ -16,7 +18,7 @@ public class Student {
         return id;
     }
 
-    protected void setId(Integer id) {
+    protected void setId(int id) {
         this.id = id;
     }
 

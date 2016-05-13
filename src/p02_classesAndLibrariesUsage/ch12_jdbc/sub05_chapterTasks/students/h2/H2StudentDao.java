@@ -89,17 +89,6 @@ public class H2StudentDao extends AbstractJdbcDao<Student, Integer> {
         }
     }
 
-    @Override
-    protected void prepareStatementForDelete(PreparedStatement ps, Student obj) throws PersistException {
-        // will be duplicated in every dao implementation, because we can not receive id (PK) in AbstractJdbcDao
-        try {
-            ps.setInt(1, obj.getId());
-        } catch (Exception e) {
-            throw new PersistException(e);
-        }
-
-    }
-
     private java.sql.Date convertDate(Date date) {
         if (date == null) {
             return null;
@@ -110,7 +99,7 @@ public class H2StudentDao extends AbstractJdbcDao<Student, Integer> {
     private class PersistStudent extends Student {
 
         @Override
-        public void setId(Integer id) {
+        public void setId(int id) {
             super.setId(id);
         }
     }

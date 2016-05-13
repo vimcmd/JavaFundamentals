@@ -12,7 +12,7 @@ import java.util.List;
  * @param <T>  persistence object type
  * @param <PK> primary key type
  */
-public abstract class AbstractJdbcDao<T, PK extends Serializable> implements GenericDao<T, PK> {
+public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Serializable> implements GenericDao<T, PK> {
 
     private Connection connection;
 
@@ -70,16 +70,6 @@ public abstract class AbstractJdbcDao<T, PK extends Serializable> implements Gen
      * @see #getUpdateQuery()
      */
     protected abstract void prepareStatementForUpdate(PreparedStatement ps, T obj) throws PersistException;
-
-    /**
-     * Set prepared (for delete) statement arguments corresponding to domain object
-     *
-     * @param ps  target prepared statement
-     * @param obj target domain object
-     * @throws PersistException
-     * @see #getDeleteQuery()
-     */
-    protected abstract void prepareStatementForDelete(PreparedStatement ps, T obj) throws PersistException;
 
     @Override
     public abstract T create() throws PersistException;
@@ -145,7 +135,11 @@ public abstract class AbstractJdbcDao<T, PK extends Serializable> implements Gen
     public void delete(T obj) throws PersistException {
         String sql = getDeleteQuery();
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            prepareStatementForDelete(ps, obj); // all implementations must have own prepareStatement*() realization
+            try {
+                ps.setObject(1, obj.getId());
+            } catch (Exception e) {
+                throw new PersistException(e);
+            }
             int count = ps.executeUpdate();
             if (count != 1) {
                 throw new PersistException("On delete more than 1 row affected: " + count);

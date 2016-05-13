@@ -10,7 +10,7 @@ import java.util.List;
  * @param <T>  type of persistence object
  * @param <PK> primary key type
  */
-public interface GenericDao<T, PK extends Serializable> {
+public interface GenericDao<T extends Identified<PK>, PK extends Serializable> {
 
     /**
      * Creates new entry and returns corresponding domain object

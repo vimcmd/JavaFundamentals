@@ -1,11 +1,13 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.domain;
 
 
+import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.dao.Identified;
+
 /**
  * Object representation of Group
  */
-public class Group {
-    private Integer id = null;
+public class Group implements Identified<Integer> {
+    private int id;
     private int number;
     private String department;
 
@@ -14,7 +16,7 @@ public class Group {
     }
 
     // protected for: using only in DAO (in inherited private class) to prevent modifying from other places
-    protected void setId(Integer id) {
+    protected void setId(int id) {
         this.id = id;
     }
 
