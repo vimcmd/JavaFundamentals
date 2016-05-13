@@ -7,7 +7,6 @@ import p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.domain
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,19 +71,33 @@ public class H2StudentDao extends AbstractJdbcDao<Student, Integer> {
             ps.setString(3, obj.getSurname());
             ps.setDate(4, sqlDate);
             ps.setInt(5, obj.getGroupId());
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new PersistException(e);
         }
     }
 
     @Override
     protected void prepareStatementForUpdate(PreparedStatement ps, Student obj) throws PersistException {
-        // TODO: 12.05.2016 implement method
+        try {
+            ps.setString(1, obj.getName());
+            ps.setString(2, obj.getSurname());
+            ps.setDate(3, convertDate(obj.getEnrolmentDate()));
+            ps.setInt(4, obj.getGroupId());
+            ps.setInt(5, obj.getId()); // WHERE id=?
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
     }
 
-    // @Override
-    protected void preparedStatementForDelete(PreparedStatement ps, Student obj) throws PersistException {
-        // TODO: 12.05.2016 implement method
+    @Override
+    protected void prepareStatementForDelete(PreparedStatement ps, Student obj) throws PersistException {
+        // will be duplicated in every dao implementation, because we can not receive id (PK) in AbstractJdbcDao
+        try {
+            ps.setInt(1, obj.getId());
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+
     }
 
     private java.sql.Date convertDate(Date date) {

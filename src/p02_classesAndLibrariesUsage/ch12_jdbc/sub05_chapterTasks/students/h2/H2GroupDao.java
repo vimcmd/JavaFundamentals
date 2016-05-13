@@ -80,6 +80,16 @@ public class H2GroupDao extends AbstractJdbcDao<Group, Integer> {
         }
     }
 
+    @Override
+    protected void prepareStatementForDelete(PreparedStatement ps, Group obj) throws PersistException {
+        // will be duplicated in every dao implementation, because we can not receive id (PK) in AbstractJdbcDao
+        try {
+            ps.setInt(1, obj.getId());
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
+    }
+
     /**
      * Class for substitute implementation of original Group
      */
