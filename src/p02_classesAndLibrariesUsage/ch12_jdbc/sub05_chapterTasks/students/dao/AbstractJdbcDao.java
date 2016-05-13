@@ -82,11 +82,7 @@ public abstract class AbstractJdbcDao<T, PK extends Serializable> implements Gen
     protected abstract void prepareStatementForDelete(PreparedStatement ps, T obj) throws PersistException;
 
     @Override
-    public T create() throws PersistException {
-        // TODO: 12.05.2016 implement method
-        // can not implement for now, because T object constructor unknown
-        return null;
-    }
+    public abstract T create() throws PersistException;
 
     @Override
     public T persist(T obj) throws PersistException {
