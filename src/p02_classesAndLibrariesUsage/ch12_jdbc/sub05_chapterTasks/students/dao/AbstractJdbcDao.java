@@ -71,6 +71,16 @@ public abstract class AbstractJdbcDao<T, PK extends Serializable> implements Gen
      */
     protected abstract void prepareStatementForUpdate(PreparedStatement ps, T obj) throws PersistException;
 
+    /**
+     * Set prepared (for delete) statement arguments corresponding to domain object
+     *
+     * @param ps  target prepared statement
+     * @param obj target domain object
+     * @throws PersistException
+     * @see #getDeleteQuery()
+     */
+    protected abstract void prepareStatementForDelete(PreparedStatement ps, T obj) throws PersistException;
+
     @Override
     public T create() throws PersistException {
         // TODO: 12.05.2016 implement method
@@ -137,7 +147,17 @@ public abstract class AbstractJdbcDao<T, PK extends Serializable> implements Gen
 
     @Override
     public void delete(T obj) throws PersistException {
-        // TODO: 12.05.2016 implement method
+        String sql = getDeleteQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            prepareStatementForDelete(ps, obj); // all implementations must have own prepareStatement*() realization
+            int count = ps.executeUpdate();
+            if (count != 1) {
+                throw new PersistException("On delete more than 1 row affected: " + count);
+            }
+            ps.close();
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
     }
 
     @Override
