@@ -9,26 +9,21 @@ import java.sql.SQLException;
 /**
  * Factory for working with database
  */
-public interface DaoFactory {
+public interface DaoFactory<T> {
 
     /**
-     * @return connection to database
-     * @throws SQLException
+     * @return Connection to database
+     * @throws PersistException
      */
-    Connection getConnection() throws SQLException;
+    T getContext() throws PersistException; // in case of JDBC context will be a Connection
 
     /**
-     * @param connection connection to database
-     * @return object for manage persistence of object {@link Group}
-     * @see Group
+     * Returns object for manage persist state
+     * @param context target connection with storage
+     * @param dtoClass target domain class
+     * @return object for manage persist state
+     * @throws PersistException
      */
-    GroupDao getGroupDao(Connection connection); // may be use getConnection()?
-
-    /**
-     * @param connection connection to database
-     * @return object for manage persistence of object {@link Student}
-     * @see Student
-     */
-    StudentDao getStudentDao(Connection connection);
+    GenericDao getDao(T context, Class dtoClass) throws PersistException;
 
 }
