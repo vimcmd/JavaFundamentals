@@ -1,5 +1,10 @@
 package p02_classesAndLibrariesUsage.ch12_jdbc.sub05_chapterTasks.students.dao;
 
+/**
+ * DAO pattern itself implies abstraction from data store and for this purpose not limited with relational databases
+ * only (data store may be file, nosql db, etc.). Therefore, in general use a java.sql package in unified classes
+ * and interfaces highly undesirable. Using own PersistException allows you to not depend on SQLException.
+ */
 public class PersistException extends Exception {
     public PersistException() {
     }
