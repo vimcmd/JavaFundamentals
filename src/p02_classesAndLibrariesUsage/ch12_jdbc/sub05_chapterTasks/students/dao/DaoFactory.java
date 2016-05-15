@@ -12,10 +12,12 @@ import java.sql.SQLException;
 public interface DaoFactory<T> {
 
     /**
+     * Context - entity, describing session of interaction with data store system. In JDBC case, Connection acting
+     * as context.
      * @return Connection to database
      * @throws PersistException
      */
-    T getContext() throws PersistException; // in case of JDBC context will be a Connection
+    T getContext() throws PersistException;
 
     /**
      * Returns object for manage persist state
