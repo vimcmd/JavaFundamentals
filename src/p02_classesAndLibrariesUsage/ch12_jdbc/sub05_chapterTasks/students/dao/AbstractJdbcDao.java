@@ -129,6 +129,15 @@ public abstract class AbstractJdbcDao<T extends Identified<PK>, PK extends Seria
     @Override
     public void update(T obj) throws PersistException {
         String sql = getUpdateQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            prepareStatementForUpdate(ps, obj);
+            int count = ps.executeUpdate();
+            if (count != 1) {
+                throw new PersistException("On update more than 1 record affected: " + count);
+            }
+        } catch (Exception e) {
+            throw new PersistException(e);
+        }
     }
 
     @Override
