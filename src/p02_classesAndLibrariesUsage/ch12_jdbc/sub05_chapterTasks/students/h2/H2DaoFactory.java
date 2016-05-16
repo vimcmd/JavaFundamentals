@@ -54,7 +54,6 @@ public class H2DaoFactory implements DaoFactory<Connection> {
     }
 
     @Override
-
     public Connection getContext() throws PersistException {
         Connection connection = null;
         try {
