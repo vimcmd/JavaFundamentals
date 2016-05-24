@@ -1,16 +1,33 @@
 # Intellij IDEA project: Tomcat deployment
-0. [Download](https://tomcat.apache.org/) Tomcat server 8.x or later and extract it. Add it to Intellij IDEA:
+##### Download Tomcat Server
+[Download](https://tomcat.apache.org/) Tomcat server 8.x or later and extract it. Add it to Intellij IDEA:
     - _File > Settings > Build, Ex... > Application servers > Add (+) > Tomcat server >_ choose extracted directory.
-1. Prepare artifact (war)
-    - Default (IDEA):
-        - _File > Project Structure > Artifacts_
-        - _Add (+) > Web Application: Archive_
-        - Give a name
-        - Choose elements in _Output Layout_ tab
-    - Maven: clean, install
+
+##### Web Application: Archive (war)
+1. Prepare artifact (or use external build manager, for ex. _Maven_)
+    - _File > Project Structure > Artifacts_
+    - _Add (+) > Web Application: Archive_
+    - Give a name
+    - Choose elements in _Output Layout_ tab
 2. Edit configurations
     - _Run > Edit configurations_
     - _Add (+) > Tomcat Server > local_
     - Add artifact (war) on _Deployment_ tab
-    - Other settings may keep defaults
+    - Other settings may keep defaults (pay attention to port number to prevent conflicts)
 3. Now _Applications Servers_ tool window appeared (may be accessed via _View > Tool Window > Application Servers_)
+4. Start server
+
+##### Web Application: Exploded (Hot Deployment)
+1. Prepare artifact (or use external build manager, for ex. _Maven_)
+    - steps same as war, but choose _Web Application: Exploded_
+2. Edit configurations
+    - _Run > Edit configurations_
+    - _Add (+) > Tomcat Server > local_
+    - Add artifact (exploded) on _Deployment_ tab
+    - On _Server_ tab choose for _On update action_ and _On frame deactivation_ choose option _Update classes and resources_
+    - Other settings may keep defaults (pay attention to port number to prevent conflicts)
+3. Now _Applications Servers_ tool window appeared (may be accessed via _View > Tool Window > Application Servers_)
+4. Start server in debug mode. Try to modify some codes or resources (JSP or html),
+the modified classes and resources will be reloaded automatically.
+
+
