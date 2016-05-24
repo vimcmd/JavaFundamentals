@@ -17,11 +17,11 @@
     <display-name>First Project</display-name>
     <servlet>
         <display-name>FirstServletDisplayName</display-name>
-        <servlet-name>FirstServletName</servlet-name>
+        <servlet-name>FirstServletNameInDescriptor</servlet-name>
         <servlet-class>p03_webApplicationTechnologies.ch15_servlets.sub01_basics.FirstServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>FirstServletName</servlet-name>
+        <servlet-name>FirstServletNameInDescriptor</servlet-name>
         <url-pattern>/FirstServletTest</url-pattern>
     </servlet-mapping>
     <session-config>
