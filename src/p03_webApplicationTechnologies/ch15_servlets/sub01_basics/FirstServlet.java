@@ -1,4 +1,4 @@
-package p03_webApplicationTechnologies.ch01_servlets.sub01_basics;
+package p03_webApplicationTechnologies.ch15_servlets.sub01_basics;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

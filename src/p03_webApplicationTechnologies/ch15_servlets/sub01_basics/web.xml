@@ -18,7 +18,7 @@
     <servlet>
         <display-name>FirstServletDisplayName</display-name>
         <servlet-name>FirstServletName</servlet-name>
-        <servlet-class>p03_webApplicationTechnologies.ch01_servlets.sub01_basics.FirstServlet</servlet-class>
+        <servlet-class>p03_webApplicationTechnologies.ch15_servlets.sub01_basics.FirstServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FirstServletName</servlet-name>
