@@ -22,7 +22,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>FirstServletNameInDescriptor</servlet-name>
-        <url-pattern>/FirstServletTest</url-pattern>
+        <url-pattern>/FirstServletTestDescriptor</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
