@@ -18,8 +18,10 @@ public class MessengerClient {
             PrintStream printStream = new PrintStream(socket.getOutputStream());
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            printStream.println("User1");
-            //printStream.println("hello everyone!");
+            printStream.println("DarthWader");
+            printStream.println("psshhhht... psshhhht... psshhhht...");
+            printStream.println("@Luke Luke, im your father!");
+            printStream.println("@PrincessLea Im your father too, btw");
 
             while (true) {
                 System.out.println(reader.readLine());

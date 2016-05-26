@@ -7,13 +7,15 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class SocketThread implements Runnable {
+public class ClientSocketThread implements Runnable {
     private PrintStream printStream;
     private BufferedReader readerStream;
     private InetAddress inetAddress;
     private String userLoginName;
+    private MessengerServer server;
 
-    public SocketThread(MessengerServer server, Socket socket) throws IOException {
+    public ClientSocketThread(MessengerServer server, Socket socket) throws IOException {
+        this.server = server;
         printStream = new PrintStream(socket.getOutputStream());
         readerStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         inetAddress = socket.getInetAddress();
@@ -24,6 +26,7 @@ public class SocketThread implements Runnable {
                 // TODO: 26.05.2016 register via socket, without using server in constructor
                 break;
             } else {
+                // FIXME: 26.05.2016 take only first word from next tries or register deny
                 userLoginName = readerStream.readLine(); // request another name
             }
         }
@@ -47,11 +50,11 @@ public class SocketThread implements Runnable {
 
     @Override
     public void run() {
-        printStream.print("WELCOME, " + userLoginName);
+        printStream.println("WELCOME, " + userLoginName);
         while (true) {
             try {
-                String line = readerStream.readLine();
-                System.out.println(userLoginName + ": " + line);
+                String message = readerStream.readLine();
+                server.send(this, message);
             } catch (IOException e) {
                 e.printStackTrace();
             }
