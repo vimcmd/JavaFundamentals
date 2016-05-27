@@ -12,11 +12,15 @@ public class MessengerClient {
     public static void main(String[] args) {
         Socket socket = null;
         BufferedReader reader = null;
+        PrintStream printStream = null;
 
         try {
             socket = new Socket(InetAddress.getLocalHost(), 54321);
-            PrintStream printStream = new PrintStream(socket.getOutputStream());
+            printStream = new PrintStream(socket.getOutputStream());
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            //printStream.println("Luke");
+            //printStream.println("here i am");
 
             printStream.println("DarthWader");
             printStream.println("psshhhht... psshhhht... psshhhht...");

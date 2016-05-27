@@ -1,6 +1,7 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.server;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -34,8 +35,7 @@ public class MessengerServer {
         String loginName = client.getUserLoginName();
         if (userLoginNames.get(loginName) == null) {
             userLoginNames.put(loginName, client);
-            client.getPrintStream().println(loginName + " successfully registered");
-            //send registration info broadcast
+            sendServerMessage(loginName + " successfully registered");
             return true;
         } else {
             client.getPrintStream().println("User with login name '" + loginName + "' already exists");
@@ -51,49 +51,111 @@ public class MessengerServer {
         }
     }
 
-    private void sendBroadcast(ClientSocketThread sender, String message) {
-        ClientSocketThread recipient = null;
-        String chatMessage = prepareOutgoingMessage(sender, message);
-
+    private void sendServerMessage(String message) {
+        String serverMessage = prepareServerMessage(message);
         for(Map.Entry<String, ClientSocketThread> entry : userLoginNames.entrySet()) {
-            recipient = entry.getValue();
-            if (recipient.getUserLoginName() != sender.getUserLoginName()) {
-                sender.getPrintStream().println(chatMessage);
-                sender.getPrintStream().flush();
-            }
-        }
-        if (recipient != null) {
-            recipient.getPrintStream().println(chatMessage);
-            recipient.getPrintStream().flush();
+            final PrintStream clientPrintStream = entry.getValue().getPrintStream();
+            clientPrintStream.println(serverMessage);
+            clientPrintStream.flush();
         }
     }
 
+    private void sendServerMessage(String recipient, String message) {
+        if (isUserExists(recipient)) {
+            final PrintStream recipientPrintStream = userLoginNames.get(recipient).getPrintStream();
+            recipientPrintStream.println(prepareServerMessage(message));
+            recipientPrintStream.flush();
+        }
+    }
+
+    /**
+     * Send message to all (including self)
+     *
+     * @param sender
+     * @param message
+     */
+    private void sendBroadcast(ClientSocketThread sender, String message) {
+        String chatMessage = prepareOutgoingMessage(sender, message);
+
+        for(Map.Entry<String, ClientSocketThread> entry : userLoginNames.entrySet()) {
+            final PrintStream clientPrintStream = entry.getValue().getPrintStream();
+            clientPrintStream.println(chatMessage);
+            clientPrintStream.flush();
+        }
+    }
+
+    /**
+     * Send message privately to recipient
+     *
+     * @param sender
+     * @param message must be started with recipient login begins with '@' sign.
+     *                For ex.: if you want send message to Luke, send "@Luke hello!"
+     */
     private void sendPrivate(ClientSocketThread sender, String message) {
         String privateMessage[] = message.split(" ", 2);
         String recipientLoginName = privateMessage[0].substring(1);
         String msg = privateMessage[1];
 
-        if (userLoginNames.containsKey(recipientLoginName)) {
+        if (isUserExists(recipientLoginName)) {
             ClientSocketThread recipient = userLoginNames.get(recipientLoginName);
             recipient.getPrintStream().println(prepareOutgoingMessagePrivate(sender, msg));
             recipient.getPrintStream().flush();
             sender.getPrintStream().println(prepareOutgoingMessagePrivate(sender, msg));
             sender.getPrintStream().flush();
         } else {
-            sender.getPrintStream().println("SERVER: User '" + recipientLoginName + "' not registered");
+            sendServerMessage(sender.getUserLoginName(), "User '" + recipientLoginName + "' not registered");
         }
     }
 
-    private void checkUserLoginName(String userLoginName) {
-        // TODO: 26.05.2016 implement
+    private boolean isUserExists(String userLoginName) {
+        if (userLoginNames.containsKey(userLoginName)) {
+            return true;
+        }
+        return false;
     }
 
+    private String prepareServerMessage(String message) {
+        return "SERVER: " + parseMessage(message);
+    }
+
+    /**
+     * Format message as %SenderName%: %message%
+     *
+     * @param sender
+     * @param message
+     * @return
+     */
     private String prepareOutgoingMessage(ClientSocketThread sender, String message) {
-        // TODO: 26.05.2016 escape special characters
-        return sender.getUserLoginName() + ": " + message;
+        return sender.getUserLoginName() + ": " + parseMessage(message);
     }
 
+    /**
+     * Format message as %SenderName%: [private] %message%
+     *
+     * @param sender
+     * @param message
+     * @return
+     */
     private String prepareOutgoingMessagePrivate(ClientSocketThread sender, String message) {
-        return sender.getUserLoginName() + ": [private] " + message;
+        return sender.getUserLoginName() + ": [private] " + parseMessage(message);
+    }
+
+    /**
+     * Remove all illegal characters, etc.
+     *
+     * @param message
+     * @return
+     */
+    private String parseMessage(String message) {
+        // TODO: 27.05.2016 implement method - escape illegal char, etc.
+        return message;
+    }
+
+    private ClientSocketThread getUser(String userLoginName) throws Exception {
+        // TODO: 27.05.2016 implement method
+        if (isUserExists(userLoginName)) {
+            return userLoginNames.get(userLoginName);
+        }
+        throw new Exception("no such user " + userLoginName);
     }
 }
