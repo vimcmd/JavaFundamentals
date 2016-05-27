@@ -13,9 +13,11 @@ public class ClientSocketThread implements Runnable {
     private InetAddress inetAddress;
     private String userLoginName;
     private MessengerServer server;
+    private Socket socket;
 
     public ClientSocketThread(MessengerServer server, Socket socket) throws IOException {
         this.server = server;
+        this.socket = socket;
         printStream = new PrintStream(socket.getOutputStream());
         readerStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         inetAddress = socket.getInetAddress();
@@ -51,30 +53,38 @@ public class ClientSocketThread implements Runnable {
     @Override
     public void run() {
         printStream.println("WELCOME, " + userLoginName);
-        while (true) {
             try {
-                String message = readerStream.readLine();
-                server.send(this, message);
+                while (true) {
+                    String message = readerStream.readLine();
+                    server.send(this, message);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                disconnect();
             }
-        }
         // send messages
     }
 
     private void disconnect() {
-        try {
-            if (printStream != null) {
-                printStream.close();
-            }
-            if (readerStream != null) {
-                readerStream.close();
-            }
-            System.out.println(userLoginName + " disconnected");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // TODO: 26.05.2016 stop runnable
+        if (printStream != null) {
+            printStream.close();
         }
+        if (readerStream != null) {
+            try {
+                readerStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(userLoginName + " disconnected");
+        // TODO: 26.05.2016 stop runnable
     }
 }
