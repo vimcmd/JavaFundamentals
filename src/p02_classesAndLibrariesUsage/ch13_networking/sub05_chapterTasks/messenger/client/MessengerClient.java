@@ -34,7 +34,8 @@ public class MessengerClient {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (SocketException e) {
-            System.err.println("Connection ended with server: " + e);
+            System.err.println("Connection lost with server: " + e);
+            // TODO: 28.05.2016 try to reconnect few times
         } catch (IOException e) {
             e.printStackTrace();
         }

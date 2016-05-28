@@ -6,25 +6,32 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class MessengerServer {
+    static final int MAX_LOGIN_LENGTH = 20;
+    static final ResourceBundle serverMessagesResource = ResourceBundle.getBundle("p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.properties.serverMessages", Locale
+            .getDefault());
     static Map<String, ClientSocketThread> userLoginNames = new HashMap<>();
 
     public MessengerServer(int port) {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Messenger server initialized at port " + port);
+            System.out.println(String.format(serverMessagesResource.getString("server.status.initialized"), port));
 
             while (true) {
-                System.out.println("waiting for clients...");
+                System.out.println(serverMessagesResource.getString("server.status.waiting"));
                 Socket socket = serverSocket.accept();
-                System.out.println(socket.getInetAddress().getHostName() + " connected");
+                System.out.println(String.format(serverMessagesResource.getString("server.user.status.connected"), socket
+                        .getInetAddress()
+                        .getHostName()));
                 new Thread(new ClientSocketThread(this, socket)).start();
             }
 
         } catch (BindException e) {
-            System.err.println("Can not reserve address: " + e);
+            System.err.println(serverMessagesResource.getString("server.status.error.address.reserveError") + e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,18 +42,44 @@ public class MessengerServer {
     }
 
     public boolean registerUser(ClientSocketThread client) {
+        boolean isFree = false;
+        boolean isCorrect = false;
         String loginName = client.getUserLoginName();
+
         if (userLoginNames.get(loginName) == null) {
-            userLoginNames.put(loginName, client);
-            sendServerMessage(loginName + " successfully registered");
-            System.out.println(loginName + " registered");
-            sendServerMessage(loginName, "Welcome, " + loginName + "!");
-            sendServerMessage(loginName, "Tip of the day: begin typing message with username starting with '@' sign, to send private message.");
-            return true;
+            isFree = true;
         } else {
-            client.getPrintStream().println("User with login name '" + loginName + "' already exists");
+            client.getPrintStream()
+                  .println(String.format(serverMessagesResource.getString("server.user.name.exists"), loginName));
+        }
+
+        if (isUserNameCorrect(loginName)) {
+            isCorrect = true;
+        } else {
+            client.getPrintStream()
+                  .println(String.format(serverMessagesResource.getString("server.user.name.incorrect"), loginName));
+        }
+
+        if (isFree && isCorrect) {
+            userLoginNames.put(loginName, client);
+            sendSuccessRegistrationMessage(loginName);
+            return true;
+        }
+        return false;
+    }
+
+    private void sendSuccessRegistrationMessage(String loginName) {
+        sendServerMessage(String.format(serverMessagesResource.getString("server.user.registered"), loginName));
+        System.out.println(loginName + " registered");
+        sendServerMessage(loginName, String.format(serverMessagesResource.getString("server.user.welcomeMessage"), loginName));
+        sendServerMessage(loginName, serverMessagesResource.getString("server.tips.privateMessage"));
+    }
+
+    private boolean isUserNameCorrect(String loginName) {
+        if (loginName.length() > MAX_LOGIN_LENGTH || loginName.contains(" ")) {
             return false;
         }
+        return true;
     }
 
     public void send(ClientSocketThread sender, String message) {
