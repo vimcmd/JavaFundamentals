@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientSocketThread implements Runnable {
     private PrintStream printStream;
@@ -52,18 +53,19 @@ public class ClientSocketThread implements Runnable {
 
     @Override
     public void run() {
-        printStream.println("WELCOME, " + userLoginName);
-            try {
-                while (true) {
-                    String message = readerStream.readLine();
-                    server.send(this, message);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                disconnect();
+        try {
+            while (true) {
+                String message = readerStream.readLine();
+                // FIXME: 28.05.2016 possible bug: send message as another user
+                server.send(this, message);
             }
-        // send messages
+        } catch (SocketException e) {
+            System.err.println("Connection ended with " + userLoginName + ": " + e);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            disconnect();
+        }
     }
 
     private void disconnect() {

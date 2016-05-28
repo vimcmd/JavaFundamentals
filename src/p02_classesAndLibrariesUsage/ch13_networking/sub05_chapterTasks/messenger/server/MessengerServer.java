@@ -2,6 +2,7 @@ package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenge
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
@@ -13,15 +14,17 @@ public class MessengerServer {
     public MessengerServer(int port) {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            System.err.println("Messenger server initialized at port " + port);
+            System.out.println("Messenger server initialized at port " + port);
 
             while (true) {
-                System.err.println("waiting for clients...");
+                System.out.println("waiting for clients...");
                 Socket socket = serverSocket.accept();
-                System.err.println(socket.getInetAddress().getHostName() + " connected");
+                System.out.println(socket.getInetAddress().getHostName() + " connected");
                 new Thread(new ClientSocketThread(this, socket)).start();
             }
 
+        } catch (BindException e) {
+            System.err.println("Can not reserve address: " + e);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +39,9 @@ public class MessengerServer {
         if (userLoginNames.get(loginName) == null) {
             userLoginNames.put(loginName, client);
             sendServerMessage(loginName + " successfully registered");
+            System.out.println(loginName + " registered");
+            sendServerMessage(loginName, "Welcome, " + loginName + "!");
+            sendServerMessage(loginName, "Tip of the day: begin typing message with username starting with '@' sign, to send private message.");
             return true;
         } else {
             client.getPrintStream().println("User with login name '" + loginName + "' already exists");
@@ -98,9 +104,9 @@ public class MessengerServer {
 
         if (isUserExists(recipientLoginName)) {
             ClientSocketThread recipient = userLoginNames.get(recipientLoginName);
-            recipient.getPrintStream().println(prepareOutgoingMessagePrivate(sender, msg));
+            recipient.getPrintStream().println(prepareOutgoingMessagePrivate(sender, recipient, msg));
             recipient.getPrintStream().flush();
-            sender.getPrintStream().println(prepareOutgoingMessagePrivate(sender, msg));
+            sender.getPrintStream().println(prepareOutgoingMessagePrivate(sender, recipient, msg));
             sender.getPrintStream().flush();
         } else {
             sendServerMessage(sender.getUserLoginName(), "User '" + recipientLoginName + "' not registered");
@@ -136,8 +142,8 @@ public class MessengerServer {
      * @param message
      * @return
      */
-    private String prepareOutgoingMessagePrivate(ClientSocketThread sender, String message) {
-        return sender.getUserLoginName() + ": [private] " + parseMessage(message);
+    private String prepareOutgoingMessagePrivate(ClientSocketThread sender, ClientSocketThread recipient, String message) {
+        return sender.getUserLoginName() + " @" + recipient.getUserLoginName() + ": " + parseMessage(message);
     }
 
     /**
@@ -151,11 +157,11 @@ public class MessengerServer {
         return message;
     }
 
-    private ClientSocketThread getUser(String userLoginName) throws Exception {
-        // TODO: 27.05.2016 implement method
+    private ClientSocketThread getUser(String userLoginName) {
         if (isUserExists(userLoginName)) {
             return userLoginNames.get(userLoginName);
         }
-        throw new Exception("no such user " + userLoginName);
+        //throw new Exception("no such registered users: " + userLoginName);
+        return null;
     }
 }

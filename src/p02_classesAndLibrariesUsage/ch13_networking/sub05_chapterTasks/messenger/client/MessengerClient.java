@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 public class MessengerClient {
@@ -32,6 +33,8 @@ public class MessengerClient {
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
+        } catch (SocketException e) {
+            System.err.println("Connection ended with server: " + e);
         } catch (IOException e) {
             e.printStackTrace();
         }
