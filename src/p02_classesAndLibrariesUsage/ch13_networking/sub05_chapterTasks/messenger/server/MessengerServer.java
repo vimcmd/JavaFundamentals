@@ -93,7 +93,7 @@ public class MessengerServer {
     }
 
     public void send(ClientSocketThread sender, String message) {
-        if (message.charAt(0) == '@') {
+        if (message.startsWith(serverMessagesResource.getString("server.commands.commandCharacter"))) {
             sendPrivate(sender, message);
         } else {
             sendBroadcast(sender, message);
@@ -152,7 +152,7 @@ public class MessengerServer {
             sender.getPrintStream().println(prepareOutgoingMessagePrivate(sender, recipient, msg));
             sender.getPrintStream().flush();
         } else {
-            sendServerMessage(sender.getUserLoginName(), "User '" + recipientLoginName + "' not registered");
+            sendServerMessage(sender.getUserLoginName(), String.format(serverMessagesResource.getString("server.user.notRegistered"), recipientLoginName));
         }
     }
 
