@@ -68,6 +68,16 @@ public class MessengerServer {
         return false;
     }
 
+    public boolean unregisterUser(ClientSocketThread client) {
+        String userLoginName = client.getUserLoginName();
+        if (userLoginNames.get(userLoginName) != null) {
+            userLoginNames.remove(userLoginName);
+            sendServerMessage(String.format(serverMessagesResource.getString("server.user.disconnected"), userLoginName));
+            return true;
+        }
+        return false;
+    }
+
     private void sendSuccessRegistrationMessage(String loginName) {
         sendServerMessage(String.format(serverMessagesResource.getString("server.user.registered"), loginName));
         System.out.println(loginName + " registered");

@@ -69,6 +69,9 @@ public class ClientSocketThread implements Runnable {
     }
 
     private void disconnect() {
+
+        boolean unregistered = server.unregisterUser(this);
+
         if (printStream != null) {
             printStream.close();
         }
@@ -86,7 +89,7 @@ public class ClientSocketThread implements Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println(userLoginName + " disconnected");
+        System.out.println(userLoginName + " disconnected: " + unregistered);
         // TODO: 26.05.2016 stop runnable
     }
 }
