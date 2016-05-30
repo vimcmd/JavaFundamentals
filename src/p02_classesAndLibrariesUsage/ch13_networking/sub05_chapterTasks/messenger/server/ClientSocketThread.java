@@ -1,5 +1,8 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.server;
 
+import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.Message;
+import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.MessageParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -56,8 +59,9 @@ public class ClientSocketThread implements Runnable {
         try {
             while (true) {
                 String message = readerStream.readLine();
+                Message msg = MessageParser.prepareMessage(this.getUserLoginName(), message);
                 // FIXME: 28.05.2016 possible bug: send message as another user
-                server.send(this, message);
+                server.send(msg);
             }
         } catch (SocketException e) {
             System.err.println("Connection ended with " + userLoginName + ": " + e);
