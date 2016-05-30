@@ -1,7 +1,8 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.server;
 
-import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.Message;
+import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.MessageImpl;
 import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.MessageParser;
+import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.SimpleMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class ClientSocketThread implements Runnable {
         userLoginName = readerStream.readLine(); // TODO: 26.05.2016 split, escape characters and use first word
 
         while (true) {
+            // TODO: 30.05.2016 remove
             if (server.registerUser(this)) {
                 // TODO: 26.05.2016 register via socket, without using server in constructor
                 break;
@@ -59,8 +61,8 @@ public class ClientSocketThread implements Runnable {
         try {
             while (true) {
                 String message = readerStream.readLine();
-                Message msg = MessageParser.prepareMessage(this.getUserLoginName(), message);
-                // FIXME: 28.05.2016 possible bug: send message as another user
+                SimpleMessage msg = new MessageImpl(this.getUserLoginName(), message);
+                // TODO: 30.05.2016 if message contains register data, set username, call register
                 server.send(msg);
             }
         } catch (SocketException e) {

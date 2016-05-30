@@ -1,6 +1,8 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message;
 
-public interface Message {
+import java.util.List;
+
+public interface SimpleMessage {
     void setFrom(String from);
 
     void setRecipient(String recipient);
@@ -9,7 +11,7 @@ public interface Message {
 
     String getFrom();
 
-    String getRecipient();
+    List<String> getRecipient();
 
     String getBody();
 }

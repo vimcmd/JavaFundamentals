@@ -1,6 +1,7 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.server;
 
-import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.Message;
+import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.MessageImpl;
+import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.SimpleMessage;
 import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message.MessageParser;
 import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.properties.ResourceManager;
 
@@ -9,12 +10,25 @@ import java.io.PrintStream;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
-public class MessengerServer {
+public class MessengerServer implements SimpleServer {
     static final int MAX_LOGIN_LENGTH = 20;
     private Map<String, ClientSocketThread> userLoginNames = new HashMap<>();
+    private final List<String> availableCommands = new ArrayList<String>(){
+        {
+            //this.add("rename");
+            this.add("register");
+            this.add("time");
+        }
+    };
+
+    public List<String> getAvailableCommands() {
+        return availableCommands;
+    }
 
     public MessengerServer(int port) {
         try {
@@ -44,7 +58,13 @@ public class MessengerServer {
         return userLoginNames;
     }
 
-    public void send(Message message) {
+    public void send(SimpleMessage message) {
+        // TODO: 30.05.2016 refactor
+        if (message.getFrom() == null) {
+            // TODO: 30.05.2016 deny message for anonymous user, ask for register
+            return;
+        }
+
         if (message.getRecipient() == null) {
             sendBroadcast(message);
         } else {
@@ -57,7 +77,7 @@ public class MessengerServer {
      *
      * @param message
      */
-    private void sendBroadcast(Message message) {
+    private void sendBroadcast(SimpleMessage message) {
         String chatMessage = prepareOutgoingMessage(message);
 
         for(Map.Entry<String, ClientSocketThread> entry : getUserLoginNames().entrySet()) {
@@ -73,21 +93,24 @@ public class MessengerServer {
      * @param message must be started with recipient login begins with '@' sign.
      *                For ex.: if you want send message to Luke, send "@Luke hello!"
      */
-    private void sendPrivate(Message message) {
-        String recipient = message.getRecipient();
+    private void sendPrivate(SimpleMessage message) {
+        List<String> recipientList = message.getRecipient();
         String sender = message.getFrom();
-        if (recipient != null && isUserExists(recipient)) {
-            final PrintStream recipientPrintStream = getUser(recipient).getPrintStream();
-            final PrintStream senderPrintStream = getUser(sender).getPrintStream();
-            if (recipientPrintStream != null && senderPrintStream != null) {
-                recipientPrintStream.println(prepareOutgoingMessagePrivate(message));
-                recipientPrintStream.flush();
-                senderPrintStream.println(prepareOutgoingMessagePrivate(message));
-                senderPrintStream.flush();
+        for(String recipient : recipientList) {
+            if (recipient != null && isUserExists(recipient)) {
+                final PrintStream recipientPrintStream = getUser(recipient).getPrintStream();
+                final PrintStream senderPrintStream = getUser(sender).getPrintStream();
+                if (recipientPrintStream != null && senderPrintStream != null) {
+                    recipientPrintStream.println(prepareOutgoingMessagePrivate(message));
+                    recipientPrintStream.flush();
+                    senderPrintStream.println(prepareOutgoingMessagePrivate(message));
+                    senderPrintStream.flush();
+                }
+            } else {
+                sendServerMessage(sender, String.format(ResourceManager.SERVER_USER_NOT_REGISTERED, recipient));
             }
-        } else {
-            sendServerMessage(sender, String.format(ResourceManager.SERVER_USER_NOT_REGISTERED, recipient));
         }
+
     }
 
     private void sendServerMessage(String message) {
@@ -111,14 +134,13 @@ public class MessengerServer {
         return "SERVER: " + MessageParser.parseMessage(message);
     }
 
-
     /**
      * Format message as %SenderName%: %message%
      *
      * @param message
      * @return
      */
-    private String prepareOutgoingMessage(Message message) {
+    private String prepareOutgoingMessage(SimpleMessage message) {
         return message.getFrom() + ": " + message.getBody();
     }
 
@@ -128,8 +150,8 @@ public class MessengerServer {
      * @param message
      * @return
      */
-    private String prepareOutgoingMessagePrivate(Message message) {
-        return message.getFrom() + " " + ResourceManager.COMMAND_CHARACTER + message.getRecipient() + ": " + message.getBody();
+    private String prepareOutgoingMessagePrivate(SimpleMessage message) {
+        return message.getFrom() + " " + ResourceManager.RECIPIENT_CHARACTER + message.getRecipient() + ": " + message.getBody();
     }
 
 

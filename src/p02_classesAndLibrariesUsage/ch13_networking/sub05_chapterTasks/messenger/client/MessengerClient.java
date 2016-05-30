@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class MessengerClient {
+public class MessengerClient implements SimpleClient {
     public static void main(String[] args) {
         Socket socket = null;
         BufferedReader reader = null;
@@ -20,10 +20,10 @@ public class MessengerClient {
             printStream = new PrintStream(socket.getOutputStream());
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            //printStream.println("Luke");
+            //printStream.println("#register:Luke");
             //printStream.println("here i am");
 
-            printStream.println("DarthWader");
+            printStream.println("#register:DarthWader");
             printStream.println("psshhhht... psshhhht... psshhhht...");
             printStream.println("@Luke Luke, im your father!");
             printStream.println("@PrincessLea Im your father too, btw");
