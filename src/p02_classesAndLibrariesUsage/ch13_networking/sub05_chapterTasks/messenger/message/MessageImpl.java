@@ -1,54 +1,35 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message;
 
 import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.properties.ResourceManager;
-import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.server.ClientSocketThread;
+import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.server.SimpleClientThread;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.List;
 
 public class MessageImpl implements SimpleMessage {
     private String from;
-    private ClientSocketThread sender;
+    private SimpleClientThread sender;
     private List<String> recipient;
     private String body;
-    private Map<String, String> messageCommands;
+    private Map<String, String> messageCommands; // command, argument
 
-    public MessageImpl(String from, String body) {
-        this.from = from;
+    public MessageImpl(SimpleClientThread sender, String body) {
+        recipient = new ArrayList<>();
+        messageCommands = new HashMap<>();
+        this.sender = sender;
         this.body = body;
         extractCommands(body);
-    }
-
-    public MessageImpl(ClientSocketThread from, String body) {
-        this(from.getUserLoginName(), body);
-        this.sender = from;
-    }
-
-    public ClientSocketThread getSender() {
-        return sender;
     }
 
     public MessageImpl() {
     }
 
-    @Override
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
-    @Override
-    public void setRecipient(String recipient) {
-        this.recipient.add(recipient);
-    }
-
-    @Override
-    public void setBody(String body) {
-        // FIXME: 30.05.2016 return clone to prevent modification
-        this.body = body;
+    public SimpleClientThread getSender() {
+        return sender;
     }
 
     @Override
@@ -58,8 +39,18 @@ public class MessageImpl implements SimpleMessage {
     }
 
     @Override
-    public List<String> getRecipient() {
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    @Override
+    public List<String> getRecipientList() {
         return new ArrayList<>(recipient);
+    }
+
+    @Override
+    public void setRecipient(String recipient) {
+        this.recipient.add(recipient);
     }
 
     @Override
@@ -68,24 +59,37 @@ public class MessageImpl implements SimpleMessage {
         return body;
     }
 
+    @Override
+    public void setBody(String body) {
+        // FIXME: 30.05.2016 return clone to prevent modification
+        this.body = body;
+    }
+
+    @Override
     public Map<String, String> getMessageCommands() {
         return new HashMap<String, String>(messageCommands);
+        //return messageCommands;
     }
 
     private void extractCommands(String body) {
+        // TODO: 31.05.2016 move method to sender/parser
+        // TODO: 31.05.2016 remove commands from body
         final String recipientCharacter = ResourceManager.RECIPIENT_CHARACTER;
         final String serverCommandCharacter = ResourceManager.SERVER_COMMAND_CHARACTER;
-        Pattern pattern = Pattern.compile("[" + recipientCharacter + "|" + serverCommandCharacter + "]\\w+\\b");
+        final String serverCommandRegister = ResourceManager.SERVER_COMMAND_REGISTER;
+        final String commandSeparator = ResourceManager.SERVER_COMMAND_SEPARATOR;
+        Pattern pattern = Pattern.compile("[" + recipientCharacter + "|" + serverCommandCharacter + "][a-zA-Z_0-9_:]+\\b");
         Matcher matcher = pattern.matcher(body);
 
         while (matcher.find()) {
             if (matcher.group().startsWith(recipientCharacter)) {
-                this.recipient.add(matcher.group());
+                // parse recipients and put to array
+                this.recipient.add(matcher.group().substring(1)); // remove '@' char
             }
 
-            if (matcher.group().startsWith(serverCommandCharacter)) {
-                // TODO: 30.05.2016 implement
-                //this.messageCommands.put(matcher.group());
+            if (matcher.group().startsWith(serverCommandRegister)) {
+                String[] registrationInfo = matcher.group().split(commandSeparator, 2);
+                this.messageCommands.put(registrationInfo[0], registrationInfo[1]);
             }
         }
     }

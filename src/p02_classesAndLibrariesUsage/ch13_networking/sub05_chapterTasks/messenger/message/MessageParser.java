@@ -1,7 +1,5 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message;
 
-import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.properties.ResourceManager;
-
 public class MessageParser {
 
     private MessageParser() {
