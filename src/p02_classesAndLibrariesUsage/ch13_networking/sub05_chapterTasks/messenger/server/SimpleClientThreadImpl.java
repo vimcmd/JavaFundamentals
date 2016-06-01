@@ -52,7 +52,7 @@ public class SimpleClientThreadImpl implements Runnable, SimpleClientThread {
         try {
             while (true) {
                 String message = readerStream.readLine();
-                // TODO: 30.05.2016 if message contains register data, set username, call register
+                // TODO: 01.06.2016 prepare message here, not on server?
                 server.send(this, message);
             }
         } catch (SocketException e) {

@@ -6,7 +6,7 @@ import java.util.Map;
 public interface SimpleMessage {
     void setFrom(String from);
 
-    void setRecipient(String recipient);
+    void addRecipient(String recipient);
 
     void setBody(String body);
 
@@ -15,6 +15,4 @@ public interface SimpleMessage {
     List<String> getRecipientList();
 
     String getBody();
-
-    Map<String, String> getMessageCommands();
 }

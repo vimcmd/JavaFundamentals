@@ -15,14 +15,11 @@ public class MessageImpl implements SimpleMessage {
     private SimpleClientThread sender;
     private List<String> recipient;
     private String body;
-    private Map<String, String> messageCommands; // command, argument
 
     public MessageImpl(SimpleClientThread sender, String body) {
         recipient = new ArrayList<>();
-        messageCommands = new HashMap<>();
         this.sender = sender;
         this.body = body;
-        extractCommands(body);
     }
 
     public MessageImpl() {
@@ -51,7 +48,7 @@ public class MessageImpl implements SimpleMessage {
     }
 
     @Override
-    public void setRecipient(String recipient) {
+    public void addRecipient(String recipient) {
         this.recipient.add(recipient);
     }
 
@@ -66,34 +63,5 @@ public class MessageImpl implements SimpleMessage {
     @Override
     public void setBody(String body) {
         this.body = body;
-    }
-
-    @Override
-    public Map<String, String> getMessageCommands() {
-        return new HashMap<String, String>(messageCommands);
-        //return messageCommands;
-    }
-
-    private void extractCommands(String body) {
-        // TODO: 31.05.2016 move method to sender/parser
-        // TODO: 31.05.2016 remove commands from body
-        final String recipientCharacter = ResourceManager.RECIPIENT_CHARACTER;
-        final String serverCommandCharacter = ResourceManager.SERVER_COMMAND_CHARACTER;
-        final String serverCommandRegister = ResourceManager.SERVER_COMMAND_REGISTER;
-        final String commandSeparator = ResourceManager.SERVER_COMMAND_SEPARATOR;
-        Pattern pattern = Pattern.compile("[" + recipientCharacter + "|" + serverCommandCharacter + "][a-zA-Z_0-9_:]+\\b");
-        Matcher matcher = pattern.matcher(body);
-
-        while (matcher.find()) {
-            if (matcher.group().startsWith(recipientCharacter)) {
-                // parse recipients and put to array
-                this.recipient.add(matcher.group().substring(1)); // remove '@' char
-            }
-
-            if (matcher.group().startsWith(serverCommandRegister)) {
-                String[] registrationInfo = matcher.group().split(commandSeparator, 2);
-                this.messageCommands.put(registrationInfo[0], registrationInfo[1]);
-            }
-        }
     }
 }

@@ -11,19 +11,21 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class MessengerServerImpl implements SimpleServer {
     static final int MAX_LOGIN_LENGTH = 20;
-    private final Map<String, String> availableCommands = new HashMap<String, String>() {
+    private final Set<CommandList> availableCommands = new HashSet<CommandList>() {
         {
-            // TODO: 31.05.2016 refactor with enum
-            //this.add("rename");
-            this.put("registrationCommand", ResourceManager.SERVER_COMMAND_REGISTER);
-            this.put("timeCommand", "#time");
+            //this.put(CommandList.TIME, "#time");
+            this.add(CommandList.REGISTER);
+            this.add(CommandList.TO_RECIPIENT);
+
         }
     };
-    private Map<String, SimpleClientThread> userLoginNames = new HashMap<>();
+    private Map<String, SimpleClientThread> userLoginNames = new HashMap<>(); // Name, ClientThread
     private SimpleSender sender;
 
     public MessengerServerImpl(int port) {
@@ -51,7 +53,7 @@ public class MessengerServerImpl implements SimpleServer {
         MessengerServerImpl server = new MessengerServerImpl(54321);
     }
 
-    private Map<String, String> getAvailableCommands() {
+    private Set<CommandList> getAvailableCommands() {
         return availableCommands;
     }
 
@@ -63,33 +65,45 @@ public class MessengerServerImpl implements SimpleServer {
     @Override
     public void send(SimpleClientThread from, String messageBody) {
         SimpleMessage message = new MessageImpl(from, messageBody);
+        Map<CommandList, String> messageCommands = CommandList.extractCommands(messageBody);
 
-        // check if sender already registered
+        // TODO: 01.06.2016 check if sender already registered
         for(Map.Entry<String, SimpleClientThread> clientEntry : userLoginNames.entrySet()) {
             if (from.equals(clientEntry.getValue())) {
                 message.setFrom(clientEntry.getKey());
             }
         }
 
-        if (message.getFrom().isEmpty() && message.getMessageCommands().isEmpty()) {
-            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_USER_MUST_REGISTER, availableCommands
-                    .get("registrationCommand")));
-        }
+        for(Map.Entry<CommandList, String> messageCommand : messageCommands.entrySet()) {
+            // TODO: 01.06.2016 move to processCommands() method
+            if (availableCommands.contains(messageCommand.getKey())) {
+                if (messageCommand.getKey().equals(CommandList.REGISTER)) {
+                    // TODO: 01.06.2016 check if already registered
+                    if (messageCommand.getValue() != null || !messageCommand.getValue().isEmpty()) {
+                        registerUser(from, messageCommand.getValue());
+                        message.setFrom(messageCommand.getValue());
+                    }
+                }
 
-        if (message.getMessageCommands() != null) {
-            // TODO: 31.05.2016 message commands
-            String regName = message.getMessageCommands().get(ResourceManager.SERVER_COMMAND_REGISTER);
-            if (regName != null) {
-                registerUser(from, regName);
-                message.setFrom(regName);
+                if (messageCommand.getKey().equals(CommandList.TO_RECIPIENT)) {
+                    message.addRecipient(messageCommand.getValue());
+                }
+            } else {
+                sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_COMMAND_UNKNOWN, messageCommand.getKey()));
             }
         }
 
-        if (message.getRecipientList().size() <= 0) {
-            sender.sendBroadcast(message);
+        if (message.getFrom().isEmpty() && messageCommands.isEmpty()) {
+            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_USER_MUST_REGISTER, CommandList.REGISTER
+                    .toString()));
         } else {
-            sender.sendPrivate(message);
+            if (message.getRecipientList().size() <= 0) {
+                sender.sendBroadcast(message);
+            } else {
+                sender.sendPrivate(message);
+            }
         }
+
     }
 
 
@@ -146,10 +160,11 @@ public class MessengerServerImpl implements SimpleServer {
     }
 
     public boolean isUserExists(String userName) {
-        if (userLoginNames.containsKey(userName)) {
-            return true;
-        }
-        return false;
+        return userLoginNames.containsKey(userName);
+    }
+
+    public boolean isUserExists(SimpleClientThread client) {
+        return userLoginNames.containsValue(client);
     }
 
     public SimpleClientThread getUser(String userLoginName) {

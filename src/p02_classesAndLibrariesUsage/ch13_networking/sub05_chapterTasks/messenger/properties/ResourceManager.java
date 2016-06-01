@@ -9,6 +9,7 @@ public class ResourceManager {
     public static final String RECIPIENT_CHARACTER = serverMessagesResource.getString("server.commands.recipientCharacter");
     public static final String SERVER_COMMAND_CHARACTER = serverMessagesResource.getString("server.commands.commandCharacter");
     public static final String SERVER_COMMAND_REGISTER = serverMessagesResource.getString("server.commands.register");
+    public static final String SERVER_COMMAND_UNKNOWN = serverMessagesResource.getString("server.commands.unknown");
     public static final String SERVER_STATUS_ADDRESS_RESERVATION_ERROR = serverMessagesResource.getString("server.status.error.address.reserveError");
     public static final String SERVER_STATUS_INITIALIZED = serverMessagesResource.getString("server.status.initialized");
     public static final String SERVER_STATUS_WAITING_CLIENTS = serverMessagesResource.getString("server.status.waiting");

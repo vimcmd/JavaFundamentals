@@ -20,8 +20,10 @@ public class MessengerClient implements SimpleClient {
             printStream = new PrintStream(socket.getOutputStream());
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            printStream.println("#register:Luke");
             printStream.println("here i am");
+            printStream.println("#register:Luke2");
+            printStream.println("here i am");
+            printStream.println("take look #awesomeCommand");
 
             //printStream.println("#register:DarthWader");
             //printStream.println("psshhhht... psshhhht... psshhhht...");
