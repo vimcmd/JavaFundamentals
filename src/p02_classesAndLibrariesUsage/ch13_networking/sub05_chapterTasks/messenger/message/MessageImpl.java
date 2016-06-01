@@ -34,7 +34,9 @@ public class MessageImpl implements SimpleMessage {
 
     @Override
     public String getFrom() {
-        // FIXME: 30.05.2016 return clone to prevent modification
+        if (from == null) {
+            return "";
+        }
         return from;
     }
 
@@ -55,13 +57,14 @@ public class MessageImpl implements SimpleMessage {
 
     @Override
     public String getBody() {
-        // FIXME: 30.05.2016 return clone to prevent modification
+        if (body == null) {
+            return "";
+        }
         return body;
     }
 
     @Override
     public void setBody(String body) {
-        // FIXME: 30.05.2016 return clone to prevent modification
         this.body = body;
     }
 

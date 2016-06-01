@@ -60,25 +60,18 @@ public class MessengerServerImpl implements SimpleServer {
         return userLoginNames;
     }
 
-    //public void send(SimpleMessage message) {
-    //    // TODO: 30.05.2016 refactor
-    //    if (message.getFrom() == null) {
-    //        // TODO: 30.05.2016 deny message for anonymous user, ask for register
-    //        return;
-    //    }
-    //
-    //    if (message.getRecipientList() == null) {
-    //        sender.sendBroadcast(message);
-    //    } else {
-    //        sender.sendPrivate(message);
-    //    }
-    //}
-
     @Override
     public void send(SimpleClientThread from, String messageBody) {
         SimpleMessage message = new MessageImpl(from, messageBody);
 
-        if (message.getFrom() == null && message.getMessageCommands() == null) {
+        // check if sender already registered
+        for(Map.Entry<String, SimpleClientThread> clientEntry : userLoginNames.entrySet()) {
+            if (from.equals(clientEntry.getValue())) {
+                message.setFrom(clientEntry.getKey());
+            }
+        }
+
+        if (message.getFrom().isEmpty() && message.getMessageCommands().isEmpty()) {
             sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_USER_MUST_REGISTER, availableCommands
                     .get("registrationCommand")));
         }
@@ -91,14 +84,6 @@ public class MessengerServerImpl implements SimpleServer {
                 message.setFrom(regName);
             }
         }
-
-        // check if sender already registered
-        for(Map.Entry<String, SimpleClientThread> clientEntry : userLoginNames.entrySet()) {
-            if (from.equals(clientEntry.getValue())) {
-                message.setFrom(clientEntry.getKey());
-            }
-        }
-
 
         if (message.getRecipientList().size() <= 0) {
             sender.sendBroadcast(message);
