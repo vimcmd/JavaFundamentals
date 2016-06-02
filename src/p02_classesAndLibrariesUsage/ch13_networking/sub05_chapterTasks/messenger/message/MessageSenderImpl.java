@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MessageSenderImpl implements SimpleSender {
-    // TODO: 30.05.2016 implement
     private SimpleServer server;
 
 

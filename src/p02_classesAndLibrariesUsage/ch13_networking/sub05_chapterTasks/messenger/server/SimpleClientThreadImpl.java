@@ -51,6 +51,7 @@ public class SimpleClientThreadImpl implements Runnable, SimpleClientThread {
     public void run() {
         try {
             while (true) {
+                // TODO: 02.06.2016 bfore read - thread.sleep to prevent ddos :)
                 String message = readerStream.readLine();
                 // TODO: 01.06.2016 prepare message here, not on server?
                 server.send(this, message);

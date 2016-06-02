@@ -8,8 +8,11 @@ public class ResourceManager {
             .getDefault());
     public static final String RECIPIENT_CHARACTER = serverMessagesResource.getString("server.commands.recipientCharacter");
     public static final String SERVER_COMMAND_CHARACTER = serverMessagesResource.getString("server.commands.commandCharacter");
+    public static final String SERVER_COMMAND_HELP = serverMessagesResource.getString("server.commands.help");
     public static final String SERVER_COMMAND_REGISTER = serverMessagesResource.getString("server.commands.register");
+    public static final String SERVER_COMMAND_SEPARATOR = serverMessagesResource.getString("server.commands.separator");
     public static final String SERVER_COMMAND_UNKNOWN = serverMessagesResource.getString("server.commands.unknown");
+    public static final String SERVER_COMMAND_UNKNOWNMESSAGE = serverMessagesResource.getString("server.commands.unknownMessage");
     public static final String SERVER_STATUS_ADDRESS_RESERVATION_ERROR = serverMessagesResource.getString("server.status.error.address.reserveError");
     public static final String SERVER_STATUS_INITIALIZED = serverMessagesResource.getString("server.status.initialized");
     public static final String SERVER_STATUS_WAITING_CLIENTS = serverMessagesResource.getString("server.status.waiting");
@@ -22,7 +25,6 @@ public class ResourceManager {
     public static final String SERVER_USER_NOT_REGISTERED = serverMessagesResource.getString("server.user.notRegistered");
     public static final String SERVER_USER_SUCCESSFULLY_REGISTERED = serverMessagesResource.getString("server.user.registered");
     public static final String SERVER_USER_WELCOME_MESSAGE = serverMessagesResource.getString("server.user.welcomeMessage");
-    public static final String SERVER_COMMAND_SEPARATOR = serverMessagesResource.getString("server.commands.separator");
 
     private ResourceManager() {
     }

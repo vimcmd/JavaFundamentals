@@ -10,18 +10,15 @@ import java.io.IOException;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class MessengerServerImpl implements SimpleServer {
     static final int MAX_LOGIN_LENGTH = 20;
-    private final Set<CommandList> availableCommands = new HashSet<CommandList>() {
+    private final Set<Comandlet> supportedCommands = new HashSet<Comandlet>() {
         {
-            //this.put(CommandList.TIME, "#time");
-            this.add(CommandList.REGISTER);
-            this.add(CommandList.TO_RECIPIENT);
+            //this.put(Comandlet.TIME, "#time");
+            this.add(Comandlet.REGISTER);
+            this.add(Comandlet.TO_RECIPIENT);
 
         }
     };
@@ -53,8 +50,8 @@ public class MessengerServerImpl implements SimpleServer {
         MessengerServerImpl server = new MessengerServerImpl(54321);
     }
 
-    private Set<CommandList> getAvailableCommands() {
-        return availableCommands;
+    private Set<Comandlet> getSupportedCommands() {
+        return supportedCommands;
     }
 
     @Override
@@ -65,36 +62,14 @@ public class MessengerServerImpl implements SimpleServer {
     @Override
     public void send(SimpleClientThread from, String messageBody) {
         SimpleMessage message = new MessageImpl(from, messageBody);
-        Map<CommandList, String> messageCommands = CommandList.extractCommands(messageBody);
+        Map<Comandlet, List<String>> messageCommands = Comandlet.extractCommands(messageBody);
 
-        // TODO: 01.06.2016 check if sender already registered
-        for(Map.Entry<String, SimpleClientThread> clientEntry : userLoginNames.entrySet()) {
-            if (from.equals(clientEntry.getValue())) {
-                message.setFrom(clientEntry.getKey());
-            }
-        }
+        updateFromFieldIfUserExists(from, message);
 
-        for(Map.Entry<CommandList, String> messageCommand : messageCommands.entrySet()) {
-            // TODO: 01.06.2016 move to processCommands() method
-            if (availableCommands.contains(messageCommand.getKey())) {
-                if (messageCommand.getKey().equals(CommandList.REGISTER)) {
-                    // TODO: 01.06.2016 check if already registered
-                    if (messageCommand.getValue() != null || !messageCommand.getValue().isEmpty()) {
-                        registerUser(from, messageCommand.getValue());
-                        message.setFrom(messageCommand.getValue());
-                    }
-                }
-
-                if (messageCommand.getKey().equals(CommandList.TO_RECIPIENT)) {
-                    message.addRecipient(messageCommand.getValue());
-                }
-            } else {
-                sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_COMMAND_UNKNOWN, messageCommand.getKey()));
-            }
-        }
+        processCommands(from, message, messageCommands);
 
         if (message.getFrom().isEmpty() && messageCommands.isEmpty()) {
-            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_USER_MUST_REGISTER, CommandList.REGISTER
+            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_USER_MUST_REGISTER, Comandlet.REGISTER
                     .toString()));
         } else {
             if (message.getRecipientList().size() <= 0) {
@@ -102,6 +77,42 @@ public class MessengerServerImpl implements SimpleServer {
             } else {
                 sender.sendPrivate(message);
             }
+        }
+
+    }
+
+    private void updateFromFieldIfUserExists(SimpleClientThread from, SimpleMessage message) {
+        for(Map.Entry<String, SimpleClientThread> clientEntry : userLoginNames.entrySet()) {
+            if (from.equals(clientEntry.getValue())) {
+                message.setFrom(clientEntry.getKey());
+            }
+        }
+    }
+
+    private void processCommands(SimpleClientThread from, SimpleMessage message, Map<Comandlet, List<String>> messageCommands) {
+        List<String> unknownCommands = new ArrayList<>();
+        // TODO: 02.06.2016 refactor
+        for(Map.Entry<Comandlet, List<String>> messageCommand : messageCommands.entrySet()) {
+            if (supportedCommands.contains(messageCommand.getKey())) {
+                if (messageCommand.getKey().equals(Comandlet.REGISTER)) {
+                    if (messageCommand.getValue().get(0) != null || !messageCommand.getValue().get(0).isEmpty()) {
+                        // check if user exists
+                        // TODO: 02.06.2016 register only with first command
+                        registerUser(from, messageCommand.getValue().get(0));
+                        message.setFrom(messageCommand.getValue().get(0));
+                    }
+                }
+
+                if (messageCommand.getKey().equals(Comandlet.TO_RECIPIENT)) {
+                    message.addRecipients(messageCommand.getValue());
+                }
+            } else {
+                unknownCommands.addAll(messageCommand.getValue());
+            }
+        }
+
+        if (!unknownCommands.isEmpty()) {
+            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_COMMAND_UNKNOWNMESSAGE, unknownCommands));
         }
 
     }

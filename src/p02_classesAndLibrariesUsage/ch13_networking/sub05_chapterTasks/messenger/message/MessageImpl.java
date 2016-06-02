@@ -1,14 +1,9 @@
 package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.message;
 
-import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.properties.ResourceManager;
 import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.server.SimpleClientThread;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MessageImpl implements SimpleMessage {
     private String from;
@@ -50,6 +45,11 @@ public class MessageImpl implements SimpleMessage {
     @Override
     public void addRecipient(String recipient) {
         this.recipient.add(recipient);
+    }
+
+    @Override
+    public void addRecipients(List<String> recipientList) {
+        this.recipient.addAll(recipientList);
     }
 
     @Override
