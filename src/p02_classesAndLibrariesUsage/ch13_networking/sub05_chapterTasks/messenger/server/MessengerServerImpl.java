@@ -16,8 +16,8 @@ public class MessengerServerImpl implements SimpleServer {
     static final int MAX_LOGIN_LENGTH = 20;
     private final Set<Comandlet> supportedCommands = new HashSet<Comandlet>() {
         {
-            //this.put(Comandlet.TIME, "#time");
             this.add(Comandlet.REGISTER);
+            this.add(Comandlet.TIME);
             this.add(Comandlet.TO_RECIPIENT);
 
         }
@@ -106,6 +106,11 @@ public class MessengerServerImpl implements SimpleServer {
                 if (messageCommand.getKey().equals(Comandlet.TO_RECIPIENT)) {
                     message.addRecipients(messageCommand.getValue());
                 }
+
+                if (messageCommand.getKey().equals(Comandlet.TIME)) {
+                    sender.sendPrivateServerMessage(from, new Date().toString());
+                }
+
             } else {
                 unknownCommands.addAll(messageCommand.getValue());
             }

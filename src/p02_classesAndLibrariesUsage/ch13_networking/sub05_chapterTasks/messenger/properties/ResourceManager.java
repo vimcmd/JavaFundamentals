@@ -11,6 +11,7 @@ public class ResourceManager {
     public static final String SERVER_COMMAND_HELP = serverMessagesResource.getString("server.commands.help");
     public static final String SERVER_COMMAND_REGISTER = serverMessagesResource.getString("server.commands.register");
     public static final String SERVER_COMMAND_SEPARATOR = serverMessagesResource.getString("server.commands.separator");
+    public static final String SERVER_COMMAND_TIME = serverMessagesResource.getString("server.commands.time");
     public static final String SERVER_COMMAND_UNKNOWN = serverMessagesResource.getString("server.commands.unknown");
     public static final String SERVER_COMMAND_UNKNOWNMESSAGE = serverMessagesResource.getString("server.commands.unknownMessage");
     public static final String SERVER_STATUS_ADDRESS_RESERVATION_ERROR = serverMessagesResource.getString("server.status.error.address.reserveError");

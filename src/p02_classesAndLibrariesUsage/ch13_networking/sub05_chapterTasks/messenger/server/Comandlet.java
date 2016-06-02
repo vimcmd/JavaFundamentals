@@ -10,11 +10,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Comandlet {
-    COMMAND_SEPARATOR(ResourceManager.SERVER_COMMAND_SEPARATOR),
     COMMAND_SIGN(ResourceManager.SERVER_COMMAND_CHARACTER),
     COMMAND_UNKNOWN(ResourceManager.SERVER_COMMAND_UNKNOWN),
     REGISTER(ResourceManager.SERVER_COMMAND_REGISTER),
     TO_RECIPIENT(ResourceManager.RECIPIENT_CHARACTER),
+    TIME(ResourceManager.SERVER_COMMAND_TIME),
     HELP(ResourceManager.SERVER_COMMAND_HELP);
 
     private String value;
@@ -46,7 +46,7 @@ public enum Comandlet {
             }
 
             if (matcher.group().startsWith(COMMAND_SIGN.toString())) {
-                String[] registrationInfo = matcher.group().split(COMMAND_SEPARATOR.toString(), 2);
+                String[] registrationInfo = matcher.group().split(ResourceManager.SERVER_COMMAND_SEPARATOR, 2);
 
                 if (getAvailableCommandsToString().contains(registrationInfo[0])) {
                     for(Comandlet command : Comandlet.values()) {
@@ -56,12 +56,14 @@ public enum Comandlet {
                             if (list == null) {
                                 list = new ArrayList<>();
                             }
-                            list.add(registrationInfo[1]);
+                            if (registrationInfo.length > 1) {
+                                list.add(registrationInfo[1]);
+                            }
                             messageCommands.put(command, list);
                         }
                     }
                 } else {
-
+                    // TODO: 02.06.2016 move unknown command detection to server side
                     List<String> list = messageCommands.get(COMMAND_UNKNOWN);
                     if (list == null) {
                         list = new ArrayList<>();

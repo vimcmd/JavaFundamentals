@@ -25,6 +25,7 @@ public class MessengerClient implements SimpleClient {
             printStream.println("#register:Luke");
             printStream.println("here i am");
             printStream.println("take look #awesomeCommand #anotherCommand");
+            printStream.println("take look #time");
 
             //printStream.println("#register:DarthWader");
             //printStream.println("psshhhht... psshhhht... psshhhht...");
