@@ -46,7 +46,7 @@ public enum Comandlet {
             }
 
             if (matcher.group().startsWith(COMMAND_SIGN.toString())) {
-                String[] registrationInfo = matcher.group().split(ResourceManager.SERVER_COMMAND_SEPARATOR, 2);
+                String[] registrationInfo = matcher.group().split(ResourceManager.SERVER_COMMAND_ARGUMENT_SEPARATOR, 2);
 
                 if (getAvailableCommandsToString().contains(registrationInfo[0])) {
                     for(Comandlet command : Comandlet.values()) {

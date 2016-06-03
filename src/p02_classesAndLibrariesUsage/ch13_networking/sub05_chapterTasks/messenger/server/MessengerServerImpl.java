@@ -117,7 +117,7 @@ public class MessengerServerImpl implements SimpleServer {
         }
 
         if (!unknownCommands.isEmpty()) {
-            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_COMMAND_UNKNOWNMESSAGE, unknownCommands));
+            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_COMMAND_UNKNOWN_MESSAGE, unknownCommands));
         }
 
     }

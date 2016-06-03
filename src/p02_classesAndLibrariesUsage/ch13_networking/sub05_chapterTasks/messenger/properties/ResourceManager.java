@@ -7,13 +7,13 @@ public class ResourceManager {
     private static final ResourceBundle serverMessagesResource = ResourceBundle.getBundle("p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.properties.serverMessages", Locale
             .getDefault());
     public static final String RECIPIENT_CHARACTER = serverMessagesResource.getString("server.commands.recipientCharacter");
+    public static final String SERVER_COMMAND_ARGUMENT_SEPARATOR = serverMessagesResource.getString("server.commands.argument.separator");
     public static final String SERVER_COMMAND_CHARACTER = serverMessagesResource.getString("server.commands.commandCharacter");
     public static final String SERVER_COMMAND_HELP = serverMessagesResource.getString("server.commands.help");
     public static final String SERVER_COMMAND_REGISTER = serverMessagesResource.getString("server.commands.register");
-    public static final String SERVER_COMMAND_SEPARATOR = serverMessagesResource.getString("server.commands.separator");
     public static final String SERVER_COMMAND_TIME = serverMessagesResource.getString("server.commands.time");
     public static final String SERVER_COMMAND_UNKNOWN = serverMessagesResource.getString("server.commands.unknown");
-    public static final String SERVER_COMMAND_UNKNOWNMESSAGE = serverMessagesResource.getString("server.commands.unknownMessage");
+    public static final String SERVER_COMMAND_UNKNOWN_MESSAGE = serverMessagesResource.getString("server.commands.unknown.message");
     public static final String SERVER_STATUS_ADDRESS_RESERVATION_ERROR = serverMessagesResource.getString("server.status.error.address.reserveError");
     public static final String SERVER_STATUS_INITIALIZED = serverMessagesResource.getString("server.status.initialized");
     public static final String SERVER_STATUS_WAITING_CLIENTS = serverMessagesResource.getString("server.status.waiting");
