@@ -21,13 +21,14 @@ public enum Comandlet {
     }
 
     /**
-     * @param text
+     * Extracts commands from message text
+     * @param text message
      * @return Map, where K - comandlet object, V - command arguments list
      */
     public static Map<Comandlet, List<String>> extractCommands(String text) {
         Map<Comandlet, List<String>> messageCommands = new HashMap<>();
 
-        Pattern pattern = Pattern.compile("[" + TO_RECIPIENT.toString() + "|" + COMMAND_SIGN.toString() + "][a-zA-Z_0-9_:]+\\b");
+        Pattern pattern = Pattern.compile("[" + TO_RECIPIENT.toString() + "|" + COMMAND_SIGN.toString() + "][a-zA-Z_0-9:]+\\b");
         Matcher matcher = pattern.matcher(text);
 
         while (matcher.find()) {

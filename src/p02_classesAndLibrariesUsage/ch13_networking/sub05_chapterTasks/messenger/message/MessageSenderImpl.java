@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class MessageSenderImpl implements SimpleSender {
     private SimpleServer server;
-
+    // TODO: 03.06.2016 implement message FIFO queue to prevent server response before watchin own message in chat history
 
     public MessageSenderImpl(SimpleServer server) {
         this.server = server;

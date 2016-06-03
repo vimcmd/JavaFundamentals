@@ -87,14 +87,12 @@ public class MessengerServerImpl implements SimpleServer {
     }
 
     private void processCommands(SimpleClientThread from, SimpleMessage message, Map<Comandlet, List<String>> messageCommands) {
-        // TODO: 02.06.2016 refactor
         for(Map.Entry<Comandlet, List<String>> messageCommand : messageCommands.entrySet()) {
             if (supportedCommands.contains(messageCommand.getKey())) {
                 if (messageCommand.getKey().equals(Comandlet.REGISTER)) {
                     if (messageCommand.getValue().get(0) != null || !messageCommand.getValue().get(0).isEmpty()) {
                         // check if user exists
-                        // TODO: 02.06.2016 register only with first command
-                        registerUser(from, messageCommand.getValue().get(0));
+                        registerUser(from, messageCommand.getValue().get(0)); // register only with first command argument
                         message.setFrom(messageCommand.getValue().get(0));
                     }
                 }
@@ -164,10 +162,7 @@ public class MessengerServerImpl implements SimpleServer {
     }
 
     private boolean isUserNameCorrect(String loginName) {
-        if (loginName.length() > MAX_LOGIN_LENGTH || loginName.contains(" ")) {
-            return false;
-        }
-        return true;
+        return !( loginName.length() > MAX_LOGIN_LENGTH || loginName.contains(" ") );
     }
 
     public boolean isUserExists(String userName) {
