@@ -16,6 +16,7 @@ public class MessengerServerImpl implements SimpleServer {
     static final int MAX_LOGIN_LENGTH = 20;
     private final Set<Comandlet> supportedCommands = new HashSet<Comandlet>() {
         {
+            this.add(Comandlet.COMMAND_UNKNOWN);
             this.add(Comandlet.REGISTER);
             this.add(Comandlet.TIME);
             this.add(Comandlet.TO_RECIPIENT);
@@ -50,10 +51,6 @@ public class MessengerServerImpl implements SimpleServer {
         MessengerServerImpl server = new MessengerServerImpl(54321);
     }
 
-    private Set<Comandlet> getSupportedCommands() {
-        return supportedCommands;
-    }
-
     @Override
     public Map<String, SimpleClientThread> getUserNames() {
         return userLoginNames;
@@ -68,7 +65,7 @@ public class MessengerServerImpl implements SimpleServer {
 
         processCommands(from, message, messageCommands);
 
-        if (message.getFrom().isEmpty() && messageCommands.isEmpty()) {
+        if (message.getFrom().isEmpty() && !messageCommands.containsKey(Comandlet.REGISTER)) {
             sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_USER_MUST_REGISTER, Comandlet.REGISTER
                     .toString()));
         } else {
@@ -90,7 +87,6 @@ public class MessengerServerImpl implements SimpleServer {
     }
 
     private void processCommands(SimpleClientThread from, SimpleMessage message, Map<Comandlet, List<String>> messageCommands) {
-        List<String> unknownCommands = new ArrayList<>();
         // TODO: 02.06.2016 refactor
         for(Map.Entry<Comandlet, List<String>> messageCommand : messageCommands.entrySet()) {
             if (supportedCommands.contains(messageCommand.getKey())) {
@@ -111,15 +107,14 @@ public class MessengerServerImpl implements SimpleServer {
                     sender.sendPrivateServerMessage(from, new Date().toString());
                 }
 
-            } else {
-                unknownCommands.addAll(messageCommand.getValue());
+                if (messageCommand.getKey().equals(Comandlet.COMMAND_UNKNOWN)) {
+                    final List<String> unknownCommands = messageCommands.get(Comandlet.COMMAND_UNKNOWN);
+                    if (unknownCommands != null) {
+                        sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_COMMAND_UNKNOWN_MESSAGE, unknownCommands));
+                    }
+                }
             }
         }
-
-        if (!unknownCommands.isEmpty()) {
-            sender.sendPrivateServerMessage(from, String.format(ResourceManager.SERVER_COMMAND_UNKNOWN_MESSAGE, unknownCommands));
-        }
-
     }
 
 

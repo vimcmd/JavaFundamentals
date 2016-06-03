@@ -2,10 +2,7 @@ package p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenge
 
 import p02_classesAndLibrariesUsage.ch13_networking.sub05_chapterTasks.messenger.properties.ResourceManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,58 +31,49 @@ public enum Comandlet {
         Matcher matcher = pattern.matcher(text);
 
         while (matcher.find()) {
-            // TODO: 02.06.2016 refactor!!!
             if (matcher.group().startsWith(TO_RECIPIENT.toString())) {
-                List<String> list = messageCommands.get(TO_RECIPIENT);
-                if (list == null) {
-                    list = new ArrayList<>();
+                List<String> recipientList = messageCommands.get(TO_RECIPIENT);
+                if (recipientList == null) {
+                    recipientList = new ArrayList<>();
                 }
-                list.add(matcher.group().substring(1)); // remove '@' char
-                messageCommands.put(TO_RECIPIENT, list);
+                String recipient = matcher.group().replaceAll(TO_RECIPIENT.toString(), "");
+                recipientList.add(recipient);
+                messageCommands.put(TO_RECIPIENT, recipientList);
 
             }
 
             if (matcher.group().startsWith(COMMAND_SIGN.toString())) {
-                String[] registrationInfo = matcher.group().split(ResourceManager.SERVER_COMMAND_ARGUMENT_SEPARATOR, 2);
+                // commandWithArgumentsArray[] = {String command, String arguments}
+                String[] commandWithArgumentsArray = matcher.group().split(ResourceManager.SERVER_COMMAND_ARGUMENT_SEPARATOR, 2);
 
-                if (getAvailableCommandsToString().contains(registrationInfo[0])) {
-                    for(Comandlet command : Comandlet.values()) {
-                        if (command.toString().equals(registrationInfo[0])) {
-
-                            List<String> list = messageCommands.get(command);
-                            if (list == null) {
-                                list = new ArrayList<>();
-                            }
-                            if (registrationInfo.length > 1) {
-                                list.add(registrationInfo[1]);
-                            }
-                            messageCommands.put(command, list);
-                        }
-                    }
-                } else {
-                    // TODO: 02.06.2016 move unknown command detection to server side
-                    List<String> list = messageCommands.get(COMMAND_UNKNOWN);
-                    if (list == null) {
-                        list = new ArrayList<>();
-                    }
-                    list.add(matcher.group());
-
-                    messageCommands.put(COMMAND_UNKNOWN, list);
+                Comandlet command = getComandletByString(commandWithArgumentsArray[0]);
+                List<String> commandArgumentList = messageCommands.get(command);
+                if (commandArgumentList == null) {
+                    commandArgumentList = new ArrayList<>();
                 }
 
+                if (command != COMMAND_UNKNOWN) {
+                    if (commandWithArgumentsArray.length > 1) {
+                        commandArgumentList.add(commandWithArgumentsArray[1]); // add arguments
+                    }
+                    messageCommands.put(command, commandArgumentList);
+                } else {
+                    commandArgumentList.add(commandWithArgumentsArray[0]); // add unknown command
+                    messageCommands.put(command, commandArgumentList);
+                }
             }
         }
 
         return messageCommands;
     }
 
-    private static List<String> getAvailableCommandsToString() {
-        final Comandlet[] commands = Comandlet.values();
-        List<String> commandsToString = new ArrayList<>(commands.length);
-        for(Comandlet command : commands) {
-            commandsToString.add(command.toString());
+    private static Comandlet getComandletByString(String stringCommand) {
+        for(Comandlet comandlet : Comandlet.values()) {
+            if (comandlet.toString().equals(stringCommand)) {
+                return comandlet;
+            }
         }
-        return commandsToString;
+        return COMMAND_UNKNOWN;
     }
 
     @Override
