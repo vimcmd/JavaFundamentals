@@ -152,7 +152,14 @@ public class MessengerServerImpl implements SimpleServer {
     //    return false;
     //}
 
-    // TODO: 31.05.2016 implement getMyName()
+    private String getMyName(SimpleClientThread client) {
+        for(Map.Entry<String, SimpleClientThread> user : userLoginNames.entrySet()) {
+            if (user.getValue().equals(client)) {
+                return user.getKey();
+            }
+        }
+        return "Anonymous";
+    }
 
     private void sendSuccessRegistrationMessage(String loginName) {
         sender.sendBroadcastServerMessage(String.format(ResourceManager.SERVER_USER_SUCCESSFULLY_REGISTERED, loginName));
