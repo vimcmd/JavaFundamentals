@@ -18,7 +18,7 @@
     <servlet>
         <display-name>FirstServletDisplayName</display-name>
         <servlet-name>FirstServletNameInDescriptor</servlet-name>
-        <servlet-class>p03_webApplicationTechnologies.ch15_servlets.sub01_basics.FirstServlet</servlet-class>
+        <servlet-class>com.github.vimcmd.javaFundamentals.p03_webApplicationTechnologies.ch15_servlets.sub01_basics.FirstServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FirstServletNameInDescriptor</servlet-name>
