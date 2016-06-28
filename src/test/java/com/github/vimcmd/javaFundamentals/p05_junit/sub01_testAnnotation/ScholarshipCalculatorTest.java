@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+// # 2 # test with annotation @Test
+
 public class ScholarshipCalculatorTest {
 
     @Test
