@@ -1,6 +1,7 @@
 package com.github.vimcmd.javaFundamentals.p05_junit.sub04_testTime;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -23,7 +24,16 @@ public class ScholarshipCalculatorImplTimeTest {
             double stepUpCoefficient = 1 / i;
             double expected = 100 * stepUpCoefficient;
             double actual = calculator.scholarshipCalculate(stepUpCoefficient);
-            assertEquals(expected, actual, 0.01);
+            assertEquals("OK if failed", expected, actual, 0.01);
         }
+    }
+
+    @Ignore("this test is not ready yet")
+    @Test
+    public void testScholarshipCalculateNotCompleted() throws Exception {
+        double stepUpCoefficient = 1;
+        double expected = 10 * stepUpCoefficient;
+        double actual = calculator.scholarshipCalculate(stepUpCoefficient);
+        assertEquals(expected, actual, 0.1);
     }
 }
