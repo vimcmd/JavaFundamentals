@@ -1,4 +1,4 @@
-package com.github.vimcmd.javaFundamentals.p01_basics.ch06_interfacesAndAnnotations.sub03_annotations;
+package com.github.vimcmd.javaFundamentals.p01_basics.ch06_interfacesAndAnnotations.sub03_annotations.primitive;
 
 // # 16 # class annotation primitive usage
 

@@ -1,4 +1,4 @@
-package com.github.vimcmd.javaFundamentals.p01_basics.ch06_interfacesAndAnnotations.sub03_annotations;
+package com.github.vimcmd.javaFundamentals.p01_basics.ch06_interfacesAndAnnotations.sub03_annotations.primitive;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
