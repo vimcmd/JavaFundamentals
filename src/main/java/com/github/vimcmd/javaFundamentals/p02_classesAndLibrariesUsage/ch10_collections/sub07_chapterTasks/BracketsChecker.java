@@ -1,5 +1,6 @@
 package com.github.vimcmd.javaFundamentals.p02_classesAndLibrariesUsage.ch10_collections.sub07_chapterTasks;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
@@ -21,7 +22,13 @@ public class BracketsChecker {
         for ( char ch : in.toCharArray() ) {
             if (brackets.containsKey(ch)) {
                 stack.add(brackets.get(ch));
-            } else if (brackets.containsValue(ch) && ch != stack.pop()) {
+            }
+
+            try {
+                if (brackets.containsValue(ch) && ch != stack.pop()) {
+                    return false;
+                }
+            } catch (EmptyStackException e) {
                 return false;
             }
         }

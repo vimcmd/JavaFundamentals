@@ -35,4 +35,27 @@ public class BracketsCheckerTest {
         boolean result = BracketsChecker.check("(({[(((1)-2)+3)-3]/3}-3)"); // false, one bracket is redundant
         assertEquals(false, result);
     }
+
+    @Test
+    public void testValid() {
+        assertEquals(true, BracketsChecker.check("()"));
+        assertEquals(true, BracketsChecker.check("[]"));
+        assertEquals(true, BracketsChecker.check("{}"));
+        assertEquals(true, BracketsChecker.check("(){}[]"));
+        assertEquals(true, BracketsChecker.check("([{}])"));
+        assertEquals(true, BracketsChecker.check("({})[({})]"));
+        assertEquals(true, BracketsChecker.check("(({{[[]]}}))"));
+        assertEquals(true, BracketsChecker.check("{}({})[]"));
+    }
+
+    @Test
+    public void testInvalid() throws Exception {
+        assertEquals(false, BracketsChecker.check("[(])"));
+        assertEquals(false, BracketsChecker.check("(}"));
+        assertEquals(false, BracketsChecker.check("(})"));
+        assertEquals(false, BracketsChecker.check(")(}{]["));
+        assertEquals(false, BracketsChecker.check("())({}}{()][]["));
+        assertEquals(false, BracketsChecker.check("(((({{"));
+        assertEquals(false, BracketsChecker.check("}}]]))}])"));
+    }
 }
