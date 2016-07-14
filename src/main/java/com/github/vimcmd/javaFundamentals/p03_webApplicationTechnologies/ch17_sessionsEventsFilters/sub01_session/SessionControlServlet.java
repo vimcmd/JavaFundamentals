@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/sesionservlet")
+@WebServlet("/sessionservlet")
 public class SessionControlServlet extends HttpServlet {
 
     @Override
@@ -31,7 +31,7 @@ public class SessionControlServlet extends HttpServlet {
         }
 
         req.setAttribute("lifecycle", "CONTROL request LIFECYCLE");
-        req.getRequestDispatcher("/jsp/sessionattr.jsp").forward(req, resp);
+        req.getRequestDispatcher("/session/jsp/sessionattr.jsp").forward(req, resp); // "/session/" is a facet (web resource directory) name
     }
 
 }
