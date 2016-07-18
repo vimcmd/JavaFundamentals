@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "student")
-@NamedQuery(name = "findStudentByLastName", query = "SELECT s FROM student WHERE s.lastName = :lastName ")
+@NamedQuery(name = "findStudentByLastName", query = "SELECT s FROM Student s WHERE s.lastName = :lastName ")
 public class Student implements Serializable {
 
     @Id

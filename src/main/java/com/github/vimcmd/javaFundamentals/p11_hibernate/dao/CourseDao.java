@@ -21,7 +21,7 @@ public class CourseDao {
 
     public Set<Student> findRegisteredOnCourse(String courseTitle) {
         Set<Student> registeredOnCourse;
-        Query query = session.createQuery("FROM course WHERE title=:title");
+        Query query = session.createQuery("FROM Course WHERE title=:title");
         query.setParameter("title", courseTitle);
         Course course = (Course) query.uniqueResult();
         registeredOnCourse = course.getStudents();
