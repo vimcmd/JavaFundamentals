@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- # 7 # example of mapping file for Course class
+    NOTE: make sure to delete all annotations in entity classes
+ -->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.github.vimcmd.javaFundamentals.p11_hibernate.entity.Course" table="course">
+        <id name="id" column="id" type="java.lang.Long">
+            <generator class="increment"/>
+        </id>
+        <property name="title" type="java.lang.String"/>
+        <set name="students" table="course_student" cascade="all">
+            <key column="course_id"/>
+            <many-to-many column="student_id" class="com.github.vimcmd.javaFundamentals.p11_hibernate.entity.Student"/>
+        </set>
+    </class>
+</hibernate-mapping>

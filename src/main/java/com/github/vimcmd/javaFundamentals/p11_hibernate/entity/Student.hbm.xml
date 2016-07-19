@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- # 8 # example of mapping file for Student class
+    NOTE: make sure to delete all annotations in entity classes
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "- //Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.github.vimcmd.javaFundamentals.p11_hibernate.entity">
+    <class name="Student" table="student">
+        <id name="id" column="id" type="java.lang.Long">
+            <generator class="native"/>
+        </id>
+        <property name="lastName" type="java.lang.String"/>
+        <property name="firstName" type="java.lang.String"/>
+    </class>
+</hibernate-mapping>
