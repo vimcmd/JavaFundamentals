@@ -14,5 +14,6 @@ public class DuplicateWordsRemoverTest {
         assertEquals("Rana is the best player in eye game", d.removeDuplicates("Rana is is the the best player in eye eye game"));
         assertEquals("in inthe", d.removeDuplicates("in inthe"));
         assertEquals("Hello Ab", d.removeDuplicates("Hello hello Ab aB"));
+        assertEquals("smoothe the theorem", d.removeDuplicates("smoothe the the theorem"));
     }
 }

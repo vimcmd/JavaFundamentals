@@ -21,11 +21,11 @@ public class DuplicateWordsRemover {
         Then for each of them, we can call replaceAll to replace the whole
         group with the first group (i.e., the first word - m.group(1)).
          */
-        Pattern pattern = Pattern.compile("\\b(\\w+)(\\b\\W+\\b\\1\\b)*", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("\\b(\\w+)(\\s+\\1\\b)*", Pattern.CASE_INSENSITIVE);
         Matcher m = pattern.matcher(in);
 
         while(m.find()){
-            in = in.replaceAll(m.group(), m.group(1));
+            in = in.replaceAll("\\b" + m.group() + "\\b", m.group(1));
         }
 
         return in;
