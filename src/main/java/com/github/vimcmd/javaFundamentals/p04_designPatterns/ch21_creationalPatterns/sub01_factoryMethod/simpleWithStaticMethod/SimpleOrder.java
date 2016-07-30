@@ -1,4 +1,4 @@
-package com.github.vimcmd.javaFundamentals.p04_designPatterns.ch21_creationalPatterns.sub01_factoryMethod.simple;
+package com.github.vimcmd.javaFundamentals.p04_designPatterns.ch21_creationalPatterns.sub01_factoryMethod.simpleWithStaticMethod;
 
 public class SimpleOrder extends AbstractOrder {
 
